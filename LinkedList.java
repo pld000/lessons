@@ -44,6 +44,11 @@ public class LinkedList {
 
         if (this.head != null && this.head.value == _value) {
             this.head = this.head.next;
+
+            if (this.head == null) {
+                this.tail = null;
+            }
+
             return true;
         }
 
@@ -111,6 +116,10 @@ public class LinkedList {
         } else {
             _nodeToInsert.next = _nodeAfter.next;
             _nodeAfter.next = _nodeToInsert;
+        }
+
+        if (_nodeToInsert.next == null) {
+            this.tail = _nodeToInsert;
         }
     }
 
