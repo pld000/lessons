@@ -10,18 +10,15 @@ public class LinkedList {
     }
 
     public void addInTail(Node item) {
-        if (this.head == null)
-            this.head = item;
-        else
-            this.tail.next = item;
+        if (this.head == null) this.head = item;
+        else this.tail.next = item;
         this.tail = item;
     }
 
     public Node find(int value) {
         Node node = this.head;
         while (node != null) {
-            if (node.value == value)
-                return node;
+            if (node.value == value) return node;
             node = node.next;
         }
         return null;
@@ -53,6 +50,11 @@ public class LinkedList {
         while (node != null) {
             if (node.next != null && node.next.value == _value) {
                 node.next = node.next.next;
+
+                if (node.next == null) {
+                    this.tail = node;
+                }
+
                 return true;
             }
             node = node.next;
