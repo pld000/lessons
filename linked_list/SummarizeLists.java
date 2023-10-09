@@ -1,3 +1,5 @@
+package linked_list;
+
 public class SummarizeLists {
     public static LinkedList summarizeLists(LinkedList list1, LinkedList list2) {
         if (list1.count() == list2.count()) {
