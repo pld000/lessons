@@ -40,7 +40,7 @@ public class LinkedList2 {
         ArrayList<Node> nodes = new ArrayList<Node>();
         Node node = this.head;
 
-        while(node != null) {
+        while (node != null) {
             if (node.value == _value) {
                 nodes.add(node);
             }
@@ -52,27 +52,77 @@ public class LinkedList2 {
     }
 
     public boolean remove(int _value) {
-        // здесь будет ваш код удаления одного узла по заданному значению
-        return true; // если узел был удалён
+        Node node = this.head;
+
+        while (node != null) {
+            if (node.value == _value) {
+                if (node.prev == null) {
+                    this.head = node.next;
+                    this.head.prev = null;
+                } else if (node.next == null) {
+                    node.prev.next = null;
+                    this.tail = node.prev;
+                } else {
+                    node.prev.next = node.next;
+                    node.next.prev = node.prev;
+                }
+
+                return true;
+            }
+
+            node = node.next;
+        }
+
+        return false;
     }
 
     public void removeAll(int _value) {
-        // здесь будет ваш код удаления всех узлов по заданному значению
+        boolean flag = true;
+
+        while (flag) {
+            flag = this.remove(_value);
+        }
     }
 
     public void clear() {
-        // здесь будет ваш код очистки всего списка
+        while (this.head != null) {
+            this.head = this.head.next;
+        }
+
+        this.tail = null;
     }
 
     public int count() {
-        return 0; // здесь будет ваш код подсчёта количества элементов в списке
+        int result = 0;
+        Node node = this.head;
+        while (node != null) {
+            result++;
+            node = node.next;
+        }
+
+        return result;
     }
 
     public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
-        // здесь будет ваш код вставки узла после заданного узла
+        if (_nodeAfter == null) {
+            this.head.prev = _nodeToInsert;
+            _nodeToInsert.next = this.head;
+            _nodeToInsert.prev = null;
 
-        // если _nodeAfter = null
-        // добавьте новый элемент первым в списке
+            this.head = _nodeToInsert;
+        } else {
+            if (_nodeAfter.next != null) {
+                _nodeAfter.next.prev = _nodeToInsert;
+            }
+
+            _nodeToInsert.next = _nodeAfter.next;
+            _nodeToInsert.prev = _nodeAfter;
+            _nodeAfter.next = _nodeToInsert;
+        }
+
+        if (_nodeToInsert.next == null) {
+            this.tail = _nodeToInsert;
+        }
     }
 }
 

@@ -10,6 +10,10 @@ public class ListTest {
         Node n6 = new Node(11);
         Node n7 = new Node(2);
 
+        Node nA = new Node(15);
+        Node nB = new Node(25);
+        Node nC = new Node(35);
+
         LinkedList2 list = new LinkedList2();
 
         list.addInTail(n1);
@@ -20,12 +24,33 @@ public class ListTest {
         list.addInTail(n6);
         list.addInTail(n7);
 
+        System.out.println("-------------------");
+        list.insertAfter(null, nA);
+        list.insertAfter(n4, nB);
+        list.insertAfter(n7, nC);
+        printList(list);
+        System.out.println("-------------------");
+//        list.removeAll(2);
+//        printList(list);
+//        System.out.println("-------------------");
+        System.out.println(list.head + "--" + list.tail);
+
+
         // System.out.println(list.find(11));
         //  ListTest.printNode(list.find(90));
-        var some = list.findAll(2);
-        for (int i = 0; i < some.size(); i++) {
-            System.out.println(some.get(i) + " " + i);
-        }
+//        var some = list.findAll(2);
+//        for (int i = 0; i < some.size(); i++) {
+//            System.out.println(some.get(i) + " " + i);
+//        }
+
+//        printList(list);
+//        System.out.println(list.remove(5));
+//        printList(list);
+//        System.out.println(list.remove(3));
+//        printList(list);
+//        System.out.println(list.remove(21));
+//        printList(list);
+//        System.out.println(list.remove(210));
 
 
     }
@@ -39,6 +64,10 @@ public class ListTest {
     }
 
     public static void printList(LinkedList2 list) {
+        if (list.head == null) {
+            System.out.println(list.head + " " + list.tail + " - result");
+        }
+
         Node node = list.head;
 
         while (node != null) {
