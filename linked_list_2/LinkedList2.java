@@ -1,5 +1,3 @@
-package linked_list_2;
-
 import java.util.*;
 
 public class LinkedList2 {
