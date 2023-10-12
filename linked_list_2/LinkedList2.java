@@ -54,7 +54,10 @@ public class LinkedList2 {
 
         while (node != null) {
             if (node.value == _value) {
-                if (node.prev == null) {
+                if (this.count() == 1) {
+                    this.head = null;
+                    this.tail = null;
+                } else if (node.prev == null) {
                     this.head = node.next;
                     this.head.prev = null;
                 } else if (node.next == null) {

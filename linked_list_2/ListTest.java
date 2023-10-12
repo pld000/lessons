@@ -2,7 +2,7 @@ package linked_list_2;
 
 public class ListTest {
     public static void main(String[] args) {
-        Node n1 = new Node(3);
+        Node n1 = new Node(2);
         Node n2 = new Node(5);
         Node n3 = new Node(7);
         Node n4 = new Node(2);
@@ -24,16 +24,16 @@ public class ListTest {
         list.addInTail(n6);
         list.addInTail(n7);
 
-        System.out.println("-------------------");
-        list.insertAfter(null, nA);
-        list.insertAfter(n4, nB);
-        list.insertAfter(n7, nC);
+
+//        System.out.println("-------------------");
+//        list.insertAfter(null, nA);
+//        list.insertAfter(n4, nB);
+//        list.insertAfter(n7, nC);
         printList(list);
         System.out.println("-------------------");
-//        list.removeAll(2);
-//        printList(list);
-//        System.out.println("-------------------");
-        System.out.println(list.head + "--" + list.tail);
+        list.removeAll(2);
+        printList(list);
+        System.out.println("-------------------");
 
 
         // System.out.println(list.find(11));
@@ -57,7 +57,7 @@ public class ListTest {
 
     public static void printNode(Node node) {
         if (node != null) {
-            System.out.println(node.value + " " + node + " " + node.prev + "/" + node.next);
+            System.out.println(node.value + " " + node.prev + " " + node +  " " + node.next);
         } else {
             System.out.println(node);
         }
@@ -70,9 +70,14 @@ public class ListTest {
 
         Node node = list.head;
 
+        System.out.println("--------------List----------------");
         while (node != null) {
             ListTest.printNode(node);
             node = node.next;
         }
+        System.out.println("--------------Tail/Head----------------");
+        System.out.println(list.head + " - " + list.tail);
+        System.out.println("--------------End List----------------");
+
     }
 }
