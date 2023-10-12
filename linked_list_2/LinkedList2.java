@@ -105,7 +105,10 @@ public class LinkedList2 {
     }
 
     public void insertAfter(Node _nodeAfter, Node _nodeToInsert) {
-        if (_nodeAfter == null) {
+        if (this.count() == 0) {
+            this.addInTail(_nodeToInsert);
+            return;
+        } else if (_nodeAfter == null) {
             this.head.prev = _nodeToInsert;
             _nodeToInsert.next = this.head;
             _nodeToInsert.prev = null;

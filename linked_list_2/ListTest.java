@@ -24,16 +24,23 @@ public class ListTest {
         list.addInTail(n6);
         list.addInTail(n7);
 
+        LinkedList2 list2 = new LinkedList2();
+
+       // list2.addInTail(nA);
+//        list2.removeAll(15);
+        list2.insertAfter(null, nA);
+        printList(list2);
+
 
 //        System.out.println("-------------------");
 //        list.insertAfter(null, nA);
 //        list.insertAfter(n4, nB);
 //        list.insertAfter(n7, nC);
-        printList(list);
-        System.out.println("-------------------");
-        list.removeAll(2);
-        printList(list);
-        System.out.println("-------------------");
+//        printList(list);
+//        System.out.println("-------------------");
+//        list.removeAll(2);
+//        printList(list);
+//        System.out.println("-------------------");
 
 
         // System.out.println(list.find(11));
