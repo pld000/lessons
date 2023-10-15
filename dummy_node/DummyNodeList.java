@@ -2,19 +2,19 @@ package dummy_node;
 import java.util.*;
 
 public class DummyNodeList {
-    private Node _head;
-    private Node _tail;
+    public BaseNode<Node> _head;
+    public BaseNode<Node> _tail;
 
     public DummyNodeList() {
-        _head = new Node();
-        _tail = new Node();
+        _head = new BaseNode<Node>();
+        _tail = new BaseNode<Node>();
 
-        _head.next = _tail;
-        _tail.prev = _head;
+        _head.next = (Node) _tail;
+        _tail.prev = (Node) _head;
     }
 
     public void add(Node node) {
-        node.next = this._tail;
+        node.next = (Node) this._tail;
         node.prev = this._tail.prev;
         this._tail.prev.next = node;
         this._tail.prev = node;
@@ -22,7 +22,7 @@ public class DummyNodeList {
 
     public void add(Node _nodeAfter, Node _nodeToInsert) {
         if (_nodeAfter == null) {
-            _nodeAfter = this._head;
+            _nodeAfter = (Node) this._head;
         }
 
         _nodeAfter.next.prev = _nodeToInsert;
@@ -35,7 +35,7 @@ public class DummyNodeList {
     public boolean remove(int _value) {
         Node node = this._head.next;
 
-        while(node != null) {
+        while (node != null) {
             if (node.value == _value) {
                 node.next.prev = node.prev;
                 node.prev.next = node.next;
@@ -60,7 +60,7 @@ public class DummyNodeList {
     public int count() {
         int result = 0;
         Node node = this._head.next;
-        while (node != null && !node.isDummy) {
+        while (node != null && node instanceof Node) {
             result++;
             node = node.next;
         }
@@ -69,22 +69,20 @@ public class DummyNodeList {
     }
 }
 
-class Node {
-    public int value;
-    public Node next;
-    public Node prev;
-    public boolean isDummy;
+class BaseNode<N> {
+    public N next;
+    public N prev;
+    public int value = 0;
 
-    public Node(int _value) {
-        value = _value;
+    public BaseNode() {
         next = null;
         prev = null;
-        isDummy = false;
     }
+}
 
-    public Node() {
-        next = null;
-        prev = null;
-        isDummy = true;
+class Node extends BaseNode<Node> {
+    public Node(int _value) {
+        super();
+        value = _value;
     }
 }
