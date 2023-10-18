@@ -94,11 +94,6 @@ public class DynArray<T> {
         return this.count <= reducedCapacity ? Math.max(reducedCapacity, 16) : -1;
     }
 
-    private int _getReduceIndex() {
-        int reduceFrom = (int) Math.round(this.capacity / 1.5);
-        return Math.max(reduceFrom, 16);
-    }
-
     private void _extendArray() {
         int new_capacity = this.array.length * 2;
         this.makeArray(new_capacity);
