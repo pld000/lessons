@@ -69,28 +69,28 @@ public class DynArray<T> {
     public void remove(int index) {
         if (index < 0 || index >= this.count) {
             throw new IndexOutOfBoundsException();
+        }
+
+        if (index == this.count - 1) {
+            this.array[index] = null;
         } else {
-            if (index == this.count - 1) {
-                this.array[index] = null;
-            } else {
-                for (int i = index; i < this.count; i++) {
-                    this.array[i] = this.array[i + 1];
-                }
-
-                this.array[this.count - 1] = null;
+            for (int i = index; i < this.count - 1; i++) {
+                this.array[i] = this.array[i + 1];
             }
-            this.count--;
 
-            int new_capacity = this._getReducedCapacity();
+            this.array[this.count - 1] = null;
+        }
+        this.count--;
 
-            if (new_capacity != -1) {
-                this.makeArray(new_capacity);
-            }
+        int new_capacity = this._getReducedCapacity();
+
+        if (new_capacity != -1 && new_capacity != this.capacity) {
+            this.makeArray(new_capacity);
         }
     }
 
     private int _getReducedCapacity() {
-        int reducedCapacity = (int) Math.round(this.capacity / 1.5);
+        int reducedCapacity = (int) (this.capacity / 1.5);
         return this.count <= reducedCapacity ? Math.max(reducedCapacity, 16) : -1;
     }
 
