@@ -7,19 +7,12 @@ public class Test {
         DynArray<Integer> dyn = new DynArray<Integer>(Integer.class);
 
         for (int i = 0; i < 16; i++) {
-            dyn.append(i + 16);
+            dyn.append(i + 1);
         }
 
-        dyn.append(234);
-        dyn.insert(999, 17);
-        printDyn(dyn);
 
-        dyn.remove(0);
-        dyn.remove(2);
-        dyn.remove(1);
-        dyn.remove(0);
+        dyn.remove(15);
         printDyn(dyn);
-        System.out.println("------------------------");
         System.out.println("Buffer: " + dyn.array.length);
     }
 
