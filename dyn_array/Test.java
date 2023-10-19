@@ -10,10 +10,20 @@ public class Test {
             dyn.append(i + 1);
         }
 
+//        for (int i = 0; i < 16; i++) {
+//            dyn.remove(0);
+//        }
 
-        dyn.remove(15);
+        for (int i = 15; i >= 0; i--) {
+            dyn.remove(0);
+        }
+
+     //   dyn.remove(15);
+
         printDyn(dyn);
-        System.out.println("Buffer: " + dyn.array.length);
+        System.out.println("Length: " + dyn.array.length);
+        System.out.println("Capacity: " + dyn.capacity);
+        System.out.println("Count: " + dyn.count);
     }
 
     public static void printDyn(DynArray<Integer> dyn) {

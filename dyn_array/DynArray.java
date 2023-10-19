@@ -80,6 +80,7 @@ public class DynArray<T> {
 
             this.array[this.count - 1] = null;
         }
+
         this.count--;
 
         int new_capacity = this._getReducedCapacity();
