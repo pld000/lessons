@@ -99,5 +99,4 @@ public class DynArray<T> {
         int new_capacity = this.array.length * 2;
         this.makeArray(new_capacity);
     }
-
 }

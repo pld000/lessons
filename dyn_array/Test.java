@@ -14,11 +14,14 @@ public class Test {
 //            dyn.remove(0);
 //        }
 
-        for (int i = 15; i >= 0; i--) {
-            dyn.remove(0);
-        }
+//        for (int i = 15; i >= 0; i--) {
+//            dyn.remove(0);
+//        }
 
-     //   dyn.remove(15);
+      //  dyn.remove(16);
+        dyn.remove(15);
+        dyn.remove(5);
+        dyn.remove(0);
 
         printDyn(dyn);
         System.out.println("Length: " + dyn.array.length);
