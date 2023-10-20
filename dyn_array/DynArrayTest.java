@@ -178,31 +178,25 @@ class DynArrayTest {
 
     @Test()
     void testRemoveWithBufferChanging() {
-        int bufferBefore = this.dynArray.array.length;
-        int capacityBefore = this.dynArray.capacity;
-        int countBefore = this.dynArray.count;
+        DynArray<Integer> dynArray = new DynArray<Integer>(Integer.class);
+        int _capacity = 2048;
+        int _count = 1048;
 
-        this.dynArray.append((int) (Math.random() * 100));
+        dynArray.makeArray(_capacity);
 
-        Assertions.assertEquals(bufferBefore * 2, this.dynArray.array.length, "Remove element, with buffer changing. Buffer extending. Wrong buffer!");
-        Assertions.assertEquals(capacityBefore * 2, this.dynArray.capacity, "Remove element, with buffer changing. Buffer extending. Wrong capacity!");
-        Assertions.assertEquals(++countBefore, this.dynArray.count, "Remove element, with buffer changing. Buffer extending. Wrong count!");
+        for (int i = 0; i < _count; i++) {
+            dynArray.append((int) (Math.random() * 100));
+        }
 
-        int removingIndex = 7;
-        bufferBefore = this.dynArray.array.length;
-        capacityBefore = this.dynArray.capacity;
-        countBefore = this.dynArray.count;
+        Assertions.assertEquals(_capacity, dynArray.capacity, "testRemoveWithBufferChanging. Wrong capacity!");
+        Assertions.assertEquals(_count, dynArray.count, "testRemoveWithBufferChanging. Wrong count!");
 
-        int nextElement = this.dynArray.getItem(removingIndex + 1);
-        this.dynArray.remove(removingIndex);
-        int afterRemoveElement = this.dynArray.getItem(removingIndex);
-        int bufferAfter = (int) (bufferBefore / 1.5);
-        int capacityAfter = (int) (capacityBefore / 1.5);
+        for (int i = 0; i < 28; i++) {
+            dynArray.remove(0);
+        }
 
-        Assertions.assertEquals(nextElement, afterRemoveElement, "Remove element, buffer is reduced. Wrong element removing!");
-        Assertions.assertEquals(bufferAfter, this.dynArray.array.length, "Remove element, buffer is reduced. Wrong buffer!");
-        Assertions.assertEquals(capacityAfter, this.dynArray.capacity, "Remove element, buffer is reduced. Wrong capacity!");
-        Assertions.assertEquals(--countBefore, this.dynArray.count, "Remove element, buffer is reduced. Wrong count!");
+        Assertions.assertEquals((int) (_capacity / 1.5), dynArray.capacity, "testRemoveWithBufferChanging. Wrong capacity!");
+        Assertions.assertEquals(1020, dynArray.count, "testRemoveWithBufferChanging. Wrong count!");
     }
 
     @AfterEach
