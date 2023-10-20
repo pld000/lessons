@@ -34,7 +34,7 @@ public class DynArray<T> {
 
     public T getItem(int index) {
         if (index < 0 || index >= this.count) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("Index out of range: " + index);
         } else {
             return this.array[index];
         }
@@ -51,7 +51,7 @@ public class DynArray<T> {
 
     public void insert(T itm, int index) {
         if (index < 0 || index > this.count) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("Index out of range: " + index);
         }
 
         if (this.count == this.capacity) {
@@ -68,7 +68,7 @@ public class DynArray<T> {
 
     public void remove(int index) {
         if (index < 0 || index >= this.count) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("Index out of range: " + index);
         }
 
         if (index == this.count - 1) {
