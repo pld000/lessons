@@ -123,6 +123,27 @@ class DynArrayTest {
     }
 
     @Test()
+    void testRemoveWithoutBufferChangingBigCapacity() {
+        DynArray<Integer> dynArray = new DynArray<Integer>(Integer.class);
+        int _capacity = 2048;
+        int _count = 1048;
+
+        dynArray.makeArray(_capacity);
+
+        for (int i = 0; i < _count; i++) {
+            dynArray.append((int) (Math.random() * 100));
+        }
+
+        Assertions.assertEquals(_capacity, dynArray.capacity, "Remove element form start, without buffer changing, init big capacity. Wrong capacity!");
+        Assertions.assertEquals(_count, dynArray.count, "Remove element form start without buffer changing, init big capacity. Wrong count!");
+
+        dynArray.remove(0);
+
+        Assertions.assertEquals(_capacity, dynArray.capacity, "Remove element form start, without buffer changing, init big capacity. Wrong capacity!");
+        Assertions.assertEquals(--_count, dynArray.count, "Remove element form start without buffer changing, init big capacity. Wrong count!");
+    }
+
+    @Test()
     void testRemoveWithoutBufferChanging() {
         int removingIndex = 15;
         int bufferBefore = this.dynArray.array.length;
@@ -187,5 +208,6 @@ class DynArrayTest {
     @AfterEach
     void tearDown() {
         this.dynArray = null;
+        this.dynArrayPartial = null;
     }
 }

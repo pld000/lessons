@@ -20,16 +20,18 @@ public class DynArray<T> {
         if (new_capacity < 16) {
             new_capacity = 16;
         }
-        this.capacity = new_capacity;
-        T[] _array = (T[]) Array.newInstance(this.clazz, new_capacity);
 
-        if (this.count > 0) {
-            int length = Math.min(_array.length, this.array.length);
-            for (int i = 0; i < length; i++) {
-                _array[i] = this.array[i];
-            }
+        T[] _array = this.array;
+        int _count = this.count;
+
+        this.capacity = new_capacity;
+        this.count = 0;
+
+        this.array = (T[]) Array.newInstance(this.clazz, new_capacity);
+
+        for (int i = 0; i < _count; i++) {
+            this.append(_array[i]);
         }
-        this.array = _array;
     }
 
     public T getItem(int index) {
@@ -92,7 +94,10 @@ public class DynArray<T> {
 
     private int _getReducedCapacity() {
         int reducedCapacity = (int) (this.capacity / 1.5);
-        return this.count <= reducedCapacity ? Math.max(reducedCapacity, 16) : -1;
+        int fillPercentage = (int) ((this.count * 100) / this.capacity);
+        boolean canBeReduced = fillPercentage < 50;
+
+        return canBeReduced ? Math.max(reducedCapacity, 16) : -1;
     }
 
     private void _extendArray() {
