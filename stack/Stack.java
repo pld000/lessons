@@ -32,6 +32,7 @@ public class Stack<T> {
                 this.head = null;
             } else {
                 this.tail = this.tail.prev;
+                this.tail.next = null;
             }
 
             return value;

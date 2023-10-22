@@ -45,35 +45,40 @@ class StackTest {
         int size = 5;
         int someValue = 999;
 
-        Assertions.assertNull(this.stack.pop(), "Wrong empty null");
-
-        for (int i = 0; i < size; i++) {
-            int value = (int) (Math.random() * 100);
-            this.stack.push(value);
-        }
+        Assertions.assertNull(this.stack.pop(), "Failed pop empty null");
+        Assertions.assertEquals(0, this.stack.size(), "Failed size for empty stack");
 
         this.stack.push(someValue);
 
-        Assertions.assertEquals(someValue, this.stack.pop(), "Wrong value pop");
+        Assertions.assertEquals(someValue, this.stack.pop(), "Failed pop wrong value");
+
+        for (int i = 0; i < size; i++) {
+            this.stack.push(i + 1);
+        }
+
+        Assertions.assertEquals(5, this.stack.pop(), "Failed pop for not empty stack");
+        size -= 1;
+        Assertions.assertEquals(size, this.stack.size(), "Failed pop size for not empty stack");
 
         while (this.stack.size() > 0) {
             this.stack.pop();
         }
 
-        Assertions.assertEquals(0, this.stack.size(), "Failed after poping) all stack");
-        Assertions.assertNull(this.stack.pop(), "Failed empty stack after poping all");
+        Assertions.assertEquals(0, this.stack.size(), "Failed pop all stack");
+        Assertions.assertNull(this.stack.pop(), "Failed pop empty stack all");
     }
 
     @Test
     void push() {
         int size = 10;
 
-        for (int i = 0; i < size; i++) {
-            int value = (int) (Math.random() * 100);
-            this.stack.push(value);
-        }
+        this.stack.push(999);
+        Assertions.assertEquals(1, this.stack.size(), "Failed push size for one value");
 
-        Assertions.assertEquals(size, this.stack.size(), "Failed push size");
+        for (int i = 0; i < size; i++) {
+            this.stack.push(i + 1);
+        }
+        Assertions.assertEquals(++size, this.stack.size(), "Failed push size");
     }
 
     @Test
