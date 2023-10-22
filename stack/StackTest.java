@@ -84,5 +84,6 @@ class StackTest {
         this.stack.push(someValue);
 
         Assertions.assertEquals(someValue, this.stack.peek(), "Failed push size");
+        Assertions.assertEquals(1, this.stack.size(), "Failed push size");
     }
 }
