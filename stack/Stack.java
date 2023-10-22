@@ -26,7 +26,13 @@ public class Stack<T> {
     public T pop() {
         if (this.tail != null) {
             T value = this.tail.value;
-            this.tail = this.tail.prev;
+
+            if (this.tail.prev == null) {
+                this.tail = null;
+                this.head = null;
+            } else {
+                this.tail = this.tail.prev;
+            }
 
             return value;
         }
