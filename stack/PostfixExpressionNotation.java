@@ -24,7 +24,7 @@ public class PostfixExpressionNotation {
     }
 
     public Integer executeExpression() {
-        int result = 0;
+        Integer result = null;
 
         while (this.expressionStack.size() > 0) {
             char value = this.expressionStack.pop();
