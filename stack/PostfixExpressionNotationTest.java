@@ -20,7 +20,7 @@ class PostfixExpressionNotationTest {
     @Test
     void pushExpression() {
         PostfixExpressionNotation postfixNotation = new PostfixExpressionNotation();
-        String expression = "8 2 + 5 * 9 +";
+        String expression = "8 2 + 5 * 9 + =";
         postfixNotation.pushExpression(expression);
         int lengthWithoutSpace = 7;
 
@@ -30,10 +30,10 @@ class PostfixExpressionNotationTest {
     @Test
     void executeExpression() {
         PostfixExpressionNotation postfixNotation = new PostfixExpressionNotation();
-        String expression = "8 2 + 5 * 9 +";
-        postfixNotation.pushExpression(expression);
-        postfixNotation.executeExpression();
 
-        Assertions.assertEquals(59, postfixNotation.resultStack.peek(), "Failed executeExpression, wrong result");
+        String expression2 = "8 2 + 5 * 9 + =";
+        postfixNotation.pushExpression(expression2);
+
+        Assertions.assertEquals(59, postfixNotation.executeExpression(), "Failed executeExpression, wrong peek result");
     }
 }

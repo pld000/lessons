@@ -23,7 +23,9 @@ public class PostfixExpressionNotation {
         }
     }
 
-    public void executeExpression() {
+    public Integer executeExpression() {
+        int result = 0;
+
         while (this.expressionStack.size() > 0) {
             char value = this.expressionStack.pop();
 
@@ -32,10 +34,14 @@ public class PostfixExpressionNotation {
                 int operand2 = this.resultStack.pop();
 
                 this.resultStack.push(this._execute(operand1, operand2, value));
+            } else if ((int) value == (int) '=') {
+                result = this.resultStack.peek();
             } else {
                 this.resultStack.push(Character.getNumericValue(value));
             }
         }
+
+        return result;
     }
 
     private int _execute(int operand1, int operand2, char operation) {
