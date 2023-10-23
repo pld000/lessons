@@ -13,8 +13,9 @@ public class BalancedBrackets {
 
         while (stack.size() > 0) {
             Character bracket = stack.pop();
+            Character head = resultStack.peek();
 
-            if (bracket == openBracket && resultStack.peek() == closeBracket) {
+            if (bracket == openBracket && head == closeBracket) {
                 resultStack.pop();
             } else {
                 resultStack.push(bracket);
