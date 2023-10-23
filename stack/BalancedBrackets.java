@@ -2,10 +2,10 @@ package stack;
 
 public class BalancedBrackets {
     public static boolean checkBalance(String brackets) {
-        int controlSum = 0;
-        char closeBracket = ')';
-        char openBracket = '(';
+        Character closeBracket = ')';
+        Character openBracket = '(';
         Stack<Character> stack = new Stack<Character>();
+        Stack<Character> resultStack = new Stack<Character>();
 
         for (int i = 0; i < brackets.length(); i++) {
             stack.push(brackets.charAt(i));
@@ -14,16 +14,14 @@ public class BalancedBrackets {
         while (stack.size() > 0) {
             Character bracket = stack.pop();
 
-            if (controlSum == 0 && bracket != closeBracket) {
-                return false;
-            } else if (bracket == closeBracket) {
-                controlSum++;
-            } else if (bracket == openBracket) {
-                controlSum--;
+            if (bracket == openBracket && resultStack.peek() == closeBracket) {
+                resultStack.pop();
+            } else {
+                resultStack.push(bracket);
             }
         }
 
-        return controlSum == 0;
+        return resultStack.size() == 0;
     }
 
 }
