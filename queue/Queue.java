@@ -3,38 +3,38 @@ package queue;
 import java.util.*;
 
 public class Queue<T> {
-    private QueueNode<T> _queueEnd;
-    private QueueNode<T> _queueBegin;
+    private QueueNode<T> _head;
+    private QueueNode<T> _tail;
 
     public Queue() {
-        _queueEnd = null;
-        _queueBegin = null;
+        _head = null;
+        _tail = null;
     }
 
     public void enqueue(T item) {
         QueueNode<T> node = new QueueNode<T>(item);
 
-        if (_queueEnd == null) {
-            _queueEnd = node;
+        if (_head == null) {
+            _head = node;
         } else {
-            _queueBegin.next = node;
-            node.prev = _queueBegin;
+            _tail.next = node;
+            node.prev = _tail;
         }
-        _queueBegin = node;
+        _tail = node;
     }
 
     public T dequeue() {
-        if (_queueBegin == null) {
+        if (_head == null) {
             return null;
         }
 
-        T _value = _queueBegin.value;
-        _queueBegin = _queueBegin.prev;
+        T _value = _head.value;
+        _head = _head.next;
 
-        if (_queueBegin == null) {
-            _queueEnd = null;
+        if (_head == null) {
+            _tail = null;
         } else {
-            _queueBegin.next = null;
+            _head.prev = null;
         }
 
         return _value;
@@ -42,7 +42,7 @@ public class Queue<T> {
 
     public int size() {
         int _size = 0;
-        QueueNode<T> node = _queueEnd;
+        QueueNode<T> node = _head;
 
         while (node != null) {
             _size++;

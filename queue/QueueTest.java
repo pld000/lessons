@@ -39,11 +39,13 @@ class QueueTest {
     void dequeue() {
         var value = this.queue.dequeue();
         Assertions.assertNull(value, "Failed dequeue empty list");
+        Assertions.assertEquals(0, this.queue.size(), "Failed dequeue empty list size");
 
         int someValue = 999;
         this.queue.enqueue(someValue);
         var enqueuedValue = this.queue.dequeue();
         Assertions.assertEquals(someValue, enqueuedValue, "Failed dequeue one value");
+        Assertions.assertEquals(0, this.queue.size(), "Failed after one dequeue element size");
 
         int enqueueSize = 100;
         int dequeueSize = (int) (Math.random() * 100);
@@ -58,6 +60,25 @@ class QueueTest {
 
         int _sizeAfterDequeue = enqueueSize - dequeueSize;
         Assertions.assertEquals(_sizeAfterDequeue, this.queue.size(), "Failed dequeue after many elements dequeue");
+
+        for (int i = 0; i < _sizeAfterDequeue; i++) {
+            this.queue.dequeue();
+        }
+        Assertions.assertEquals(0, this.queue.size(), "Failed after dequeue all elements size");
+
+        Integer[] testValuesArray = {3, 4, 55, 66, 73, 45, 95};
+
+        for (int i = 0; i < testValuesArray.length; i++) {
+            this.queue.enqueue(testValuesArray[i]);
+        }
+
+        Assertions.assertEquals(testValuesArray.length, this.queue.size(), "Failed after enqueue testValuesArray elements size");
+
+        for (int i = 0; i < testValuesArray.length; i++) {
+            int val = this.queue.dequeue();
+        Assertions.assertEquals(testValuesArray[i], val, "Failed dequeue testValuesArray all elements size");
+        }
+
     }
 
     @Test
