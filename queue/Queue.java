@@ -7,40 +7,44 @@ public class Queue<T> {
     private QueueNode<T> _queueBegin;
 
     public Queue() {
-        this._queueEnd = null;
-        this._queueBegin = null;
+        _queueEnd = null;
+        _queueBegin = null;
     }
 
     public void enqueue(T item) {
         QueueNode<T> node = new QueueNode<T>(item);
 
-        if (this._queueBegin == null) {
-            this._queueBegin = node;
+        if (_queueEnd == null) {
+            _queueEnd = node;
         } else {
-            node.prev = this._queueEnd;
+            _queueBegin.next = node;
+            node.prev = _queueBegin;
         }
-        this._queueEnd = node;
-        System.out.println(this._queueBegin.prev + " - " + this._queueEnd.prev);
+        _queueBegin = node;
     }
 
     public T dequeue() {
-        if (this._queueBegin == null) {
+        if (_queueBegin == null) {
             return null;
         }
 
-        T _value = this._queueBegin.value;
-        this._queueBegin = this._queueBegin.prev;
+        T _value = _queueBegin.value;
+        _queueBegin = _queueBegin.prev;
+
+        if (_queueBegin != null) {
+            _queueBegin.next = null;
+        }
 
         return _value;
     }
 
     public int size() {
         int _size = 0;
-        QueueNode<T> node = this._queueBegin;
+        QueueNode<T> node = _queueEnd;
 
         while (node != null) {
             _size++;
-            node = node.prev;
+            node = node.next;
         }
 
         return _size;
@@ -50,10 +54,12 @@ public class Queue<T> {
 
 class QueueNode<T> {
     public T value;
+    public QueueNode<T> next;
     public QueueNode<T> prev;
 
     public QueueNode(T _value) {
         value = _value;
+        next = null;
         prev = null;
     }
 }

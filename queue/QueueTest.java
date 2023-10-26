@@ -32,18 +32,18 @@ class QueueTest {
     void size() {
         Assertions.assertEquals(0, this.queue.size(), "Failed size empty size");
 
-        int enqueueSize = 4;
+        int enqueueSize = 100;
         for (int i = 0; i < enqueueSize; i++) {
             this.queue.enqueue(i + 1);
         }
         Assertions.assertEquals(enqueueSize, this.queue.size(), "Failed size after enqueue");
 
-//        int dequeueSize = (int) (Math.random() * 100);
-//        for (int i = 0; i < enqueueSize; i++) {
-//            var value = this.queue.dequeue();
-//            System.out.println("Queue value: " + value);
-//        }
-//        int _sizeAfterDequeue = enqueueSize - dequeueSize;
-//        Assertions.assertEquals(_sizeAfterDequeue, this.queue.size(), "Failed size after dequeue");
+        int dequeueSize = (int) (Math.random() * 100);
+        for (int i = 0; i < dequeueSize; i++) {
+            var value = this.queue.dequeue();
+            System.out.println("Queue value: " + value);
+        }
+        int _sizeAfterDequeue = enqueueSize - dequeueSize;
+        Assertions.assertEquals(_sizeAfterDequeue, this.queue.size(), "Failed size after dequeue");
     }
 }
