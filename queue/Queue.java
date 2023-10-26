@@ -31,7 +31,9 @@ public class Queue<T> {
         T _value = _queueBegin.value;
         _queueBegin = _queueBegin.prev;
 
-        if (_queueBegin != null) {
+        if (_queueBegin == null) {
+            _queueEnd = null;
+        } else {
             _queueBegin.next = null;
         }
 

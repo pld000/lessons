@@ -22,10 +22,42 @@ class QueueTest {
 
     @Test
     void enqueue() {
+        int someValue = 999;
+        this.queue.enqueue(someValue);
+        Assertions.assertEquals(1, this.queue.size(), "Failed enqueue check size before dequeue");
+        Assertions.assertEquals(someValue, this.queue.dequeue(), "Failed enqueue one element");
+        Assertions.assertEquals(0, this.queue.size(), "Failed enqueue check size after dequeue");
+
+        int enqueueSize = 300;
+        for (int i = 0; i < enqueueSize; i++) {
+            this.queue.enqueue(i + 1);
+        }
+        Assertions.assertEquals(enqueueSize, this.queue.size(), "Failed enqueue 300 elements");
     }
 
     @Test
     void dequeue() {
+        var value = this.queue.dequeue();
+        Assertions.assertNull(value, "Failed dequeue empty list");
+
+        int someValue = 999;
+        this.queue.enqueue(someValue);
+        var enqueuedValue = this.queue.dequeue();
+        Assertions.assertEquals(someValue, enqueuedValue, "Failed dequeue one value");
+
+        int enqueueSize = 100;
+        int dequeueSize = (int) (Math.random() * 100);
+
+        for (int i = 0; i < enqueueSize; i++) {
+            this.queue.enqueue(i + 1);
+        }
+
+        for (int i = 0; i < dequeueSize; i++) {
+            this.queue.dequeue();
+        }
+
+        int _sizeAfterDequeue = enqueueSize - dequeueSize;
+        Assertions.assertEquals(_sizeAfterDequeue, this.queue.size(), "Failed dequeue after many elements dequeue");
     }
 
     @Test
