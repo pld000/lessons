@@ -3,32 +3,30 @@ package queue;
 import stack.Stack;
 
 public class TwoStackQueue<T> {
-    private Stack<T> _main;
+    private Stack<T> _containerStack;
+    private Stack<T> _giverStack;
 
     public TwoStackQueue() {
-        _main = new Stack<>();
+        _containerStack = new Stack<>();
+        _giverStack = new Stack<>();
     }
 
     public void enqueue(T item) {
-        Stack<T> _tmp = new Stack<>();
-
-        while (_main.size() > 0) {
-            _tmp.push(_main.pop());
-        }
-
-        _main.push(item);
-
-        while (_tmp.size() > 0) {
-            _main.push(_tmp.pop());
-        }
+        _containerStack.push(item);
     }
 
     public T dequeue() {
-        return _main.pop();
+        if (_giverStack.size() == 0) {
+            while (_containerStack.size() > 0) {
+                _giverStack.push(_containerStack.pop());
+            }
+        }
+
+        return _giverStack.pop();
     }
 
     public int size() {
-        return _main.size();
+        return _containerStack.size() + _giverStack.size();
     }
 }
 
