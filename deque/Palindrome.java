@@ -2,19 +2,16 @@ package deque;
 
 public class Palindrome {
     public static boolean check(String str) {
-        boolean isPalindrome = true;
         Deque<Character> deque = _mapStringToDeque(str);
         int iterations = deque.size() / 2;
 
         for (int i = 0; i < iterations; i++) {
-            isPalindrome = isPalindrome && (char) deque.removeFront() == (char) deque.removeTail();
-
-            if (!isPalindrome) {
+            if ((char) deque.removeFront() != deque.removeTail()) {
                 return false;
             }
         }
 
-        return isPalindrome;
+        return true;
     }
 
     private static Deque<Character> _mapStringToDeque(String str) {
