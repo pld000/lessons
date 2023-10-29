@@ -44,7 +44,7 @@ public class Deque<T> {
             _head = null;
             _tail = null;
         } else {
-            _head.next = _head;
+            _head = _head.next;
             _head.prev = null;
         }
 
@@ -62,7 +62,7 @@ public class Deque<T> {
             _tail = null;
             _head = null;
         } else {
-            _tail.prev = _tail;
+            _tail = _tail.prev;
             _tail.next = null;
         }
 
