@@ -7,10 +7,11 @@ public class Palindrome {
         int iterations = deque.size() / 2;
 
         for (int i = 0; i < iterations; i++) {
-            char front = deque.removeFront();
-            char tail = deque.removeTail();
+            isPalindrome = isPalindrome && (char) deque.removeFront() == (char) deque.removeTail();
 
-            isPalindrome = isPalindrome && front == tail;
+            if (!isPalindrome) {
+                return false;
+            }
         }
 
         return isPalindrome;

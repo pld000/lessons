@@ -15,6 +15,7 @@ class PalindromeTest {
     public String[] testingStringsFalse = {"машина", // false
             "небо", // false
             "пар", // false
+            "параурап", // false
     };
 
     @Test
