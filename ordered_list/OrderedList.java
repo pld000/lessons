@@ -35,7 +35,6 @@ public class OrderedList<T> {
         if (_count == 0) {
             head = addedNode;
             tail = addedNode;
-
             return;
         }
 
@@ -44,9 +43,9 @@ public class OrderedList<T> {
         for (int i = 0; i < _count; i++) {
             if (_ascending && compare(value, node.value) <= 0 || !_ascending && compare(value, node.value) >= 0) {
                 if (node.prev == null) {
-                    node.prev = addedNode;
-                    addedNode.next = node;
-
+                    head.prev = addedNode;
+                    addedNode.next = head;
+                    head = addedNode;
                     return;
                 }
 
@@ -54,22 +53,15 @@ public class OrderedList<T> {
                 addedNode.prev = node.prev;
                 addedNode.next = node;
                 node.prev = addedNode;
-
                 return;
             }
 
             node = node.next;
         }
 
-        if (_ascending) {
-            addedNode.next = head;
-            head.prev = addedNode;
-            head = addedNode;
-        } else {
-            addedNode.prev = tail;
-            tail.next = addedNode;
-            tail = addedNode;
-        }
+        addedNode.prev = tail;
+        tail.next = addedNode;
+        tail = addedNode;
     }
 
     public Node<T> find(T val) {
