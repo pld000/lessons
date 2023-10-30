@@ -198,6 +198,16 @@ class OrderedListTest {
         Assertions.assertEquals(size - 4, listAsc.count(), "Failed deleteElementsAsc size");
         Assertions.assertEquals(2, listAsc.head.value, "Failed deleteElementsAsc head value");
         Assertions.assertEquals(98, listAsc.tail.value, "Failed deleteElementsAsc tail value");
+
+        listAsc.add(55);
+        listAsc.add(55);
+
+        listAsc.delete(55);
+        Node<Integer> node = listAsc.find(55);
+        Assertions.assertEquals(55, node.value, "Failed deleteElementsAsc duplicate value");
+        listAsc.delete(55);
+        node = listAsc.find(55);
+        Assertions.assertNull(node, "Failed deleteElementsAsc duplicate value");
     }
 
     @Test
@@ -217,6 +227,17 @@ class OrderedListTest {
         Assertions.assertEquals(size - 4, listDesc.count(), "Failed deleteElementsDesc size");
         Assertions.assertEquals(98, listDesc.head.value, "Failed deleteElementsDesc head value");
         Assertions.assertEquals(2, listDesc.tail.value, "Failed deleteElementsDesc tail value");
+
+
+        listDesc.add(55);
+        listDesc.add(55);
+
+        listDesc.delete(55);
+        Node<Integer> node = listDesc.find(55);
+        Assertions.assertEquals(55, node.value, "Failed deleteElementsDesc duplicate value");
+        listDesc.delete(55);
+        node = listDesc.find(55);
+        Assertions.assertNull(node, "Failed deleteElementsDesc duplicate value");
     }
 
     @Test
