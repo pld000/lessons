@@ -1,5 +1,7 @@
 package hashing;
 
+import java.util.Objects;
+
 public class HashTable {
     public int size;
     public int step;
@@ -13,37 +15,70 @@ public class HashTable {
     }
 
     public int hashFun(String value) {
-        int charSum = 0;
+        double charSum = 0;
+        int k = value.length();
 
-        for (int i = 0; i < value.length(); i++) {
-            charSum += value.charAt(i);
+        for (int i = 0; i < k; i++) {
+            charSum += value.charAt(i) * Math.pow(k * 2, i);
         }
 
-        return charSum % size;
+        return (int) charSum % size;
     }
 
     public int seekSlot(String value) {
         int slot = hashFun(value);
 
+        int k = -slot;
+        while (k <= size - 1) {
+            if (slots[slot] == null) {
+                break;
+            }
+
+            slot += step;
+            slot = slot <= size - 1 ? slot : 0;
+            k += step;
+        }
+
         if (slots[slot] == null) {
             return slot;
         }
-
-        
 
         return -1;
     }
 
     public int put(String value) {
-        // записываем значение по хэш-функции
+        if (find(value) >= 0) {
+            return -1;
+        }
 
-        // возвращается индекс слота или -1
-        // если из-за коллизий элемент не удаётся разместить
-        return -1;
+        int slot = seekSlot(value);
+
+        if (slot == -1) {
+            return -1;
+        }
+
+        slots[slot] = value;
+        return slot;
     }
 
     public int find(String value) {
-        // находит индекс слота со значением, или -1
+        int slot = hashFun(value);
+
+        int k = -slot;
+        while (k <= size - 1) {
+            if (Objects.equals(slots[slot], value)) {
+                break;
+            }
+
+            slot += step;
+            slot = slot <= size - 1 ? slot : 0;
+            k += step;
+        }
+
+        if (Objects.equals(slots[slot], value)) {
+            return slot;
+        }
+
         return -1;
     }
 }
