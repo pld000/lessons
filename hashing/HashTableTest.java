@@ -41,8 +41,20 @@ class HashTableTest {
     }
 
     @Test
-    void seekSlot() {
+    void seekSlotForEmptyTable() {
+        int emptyTableSeekSlot = hashTable.seekSlot("some string");
+        Assertions.assertNotEquals(-1, emptyTableSeekSlot, "Failed seekSlot empty table");
+    }
 
+    @Test
+    void seekSlotIfCollision() {
+        int someNameSlot = hashTable.put("some name");
+        int collisionSlot = hashTable.put("name sameeee");
+        int collisionSlot3 = hashTable.put("name sameeee");
+        int collisionSlot2 = hashTable.put("11aname some");
+
+        System.out.println(someNameSlot + " " + collisionSlot+ " " + collisionSlot2+ " " + collisionSlot3);
+//        Assertions.assertNotEquals(-1, emptyTableSeekSlot, "Failed seekSlot empty table");
     }
 
     @Test
