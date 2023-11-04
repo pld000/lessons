@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HashTableTest {
     HashTable hashTable;
+    public String[] testKeys = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q"};
 
     @BeforeEach
     void setUp() {
@@ -28,16 +29,6 @@ class HashTableTest {
         String str1 = "asdfasdf";
         String str2 = "fdsafdsa";
         Assertions.assertEquals(hashTable.hashFun(str1), hashTable.hashFun(str2), "Failed different string has the same hash");
-
-
-//        String[] testStrings = {
-//                "ab", "ba", "some name", "name some", "equals", "equals"
-//        };
-//
-//        for (int i = 0; i < testStrings.length; i++) {
-//            System.out.println(hashTable.hashFun(testStrings[i]));
-//        }
-
     }
 
     @Test
@@ -47,21 +38,111 @@ class HashTableTest {
     }
 
     @Test
-    void seekSlotIfCollision() {
-        int someNameSlot = hashTable.put("some name");
-        int collisionSlot = hashTable.put("name sameeee");
-        int collisionSlot3 = hashTable.put("name sameeee");
-        int collisionSlot2 = hashTable.put("11aname some");
+    void seekSlotFullTable() {
+        for (int i = 0; i < testKeys.length; i++) {
+            hashTable.slots[hashTable.seekSlot(testKeys[i])] = testKeys[i];
+        }
 
-        System.out.println(someNameSlot + " " + collisionSlot+ " " + collisionSlot2+ " " + collisionSlot3);
-//        Assertions.assertNotEquals(-1, emptyTableSeekSlot, "Failed seekSlot empty table");
+        for (int i = 0; i < testKeys.length; i++) {
+            Assertions.assertEquals(testKeys[i], hashTable.slots[hashTable.seekSlot(testKeys[i])], "Failed seekSlotFullTable equals a");
+        }
+
+        Assertions.assertEquals(-1, hashTable.seekSlot("some value"), "Failed seekSlotFullTable not found ");
     }
 
     @Test
-    void put() {
+    void seekSlotOneEmptySlot() {
+//        System.out.println(hashTable.hashFun("r")); //12
+//        System.out.println(hashTable.hashFun("s")); //13
+//        System.out.println(hashTable.hashFun("t"));
+//        System.out.println(hashTable.hashFun("u"));
+//        System.out.println(hashTable.hashFun("v"));
+//        System.out.println(hashTable.hashFun("w"));
+//        System.out.println(hashTable.hashFun("x"));
+//        System.out.println(hashTable.hashFun("y"));
+//        System.out.println(hashTable.hashFun("z"));
+
+        for (int i = 0; i < testKeys.length; i++) {
+            hashTable.slots[hashTable.seekSlot(testKeys[i])] = testKeys[i];
+        }
+
+        hashTable.slots[1] = null;
+        Assertions.assertEquals(13, hashTable.hashFun("s"), "Failed seekSlotOneEmptySlot test case value");
+        Assertions.assertEquals(1, hashTable.seekSlot("s"), "Failed seekSlotOneEmptySlot search one empty");
     }
 
     @Test
-    void find() {
+    void seekSlotWithCollision() {
+        hashTable.slots[hashTable.hashFun("a")] = "a";
+        int rSlot = hashTable.seekSlot("r");
+        Assertions.assertEquals(15, rSlot, "Failed seekSlotWithCollision r slot");
+
+        hashTable.slots[rSlot] = "r";
+        int uSlot = hashTable.seekSlot("u");
+        Assertions.assertEquals(1, uSlot, "Failed seekSlotWithCollision u slot");
     }
+
+    @Test
+    void putToEmpty() {
+        String someString = "Any value";
+        int strHash = hashTable.hashFun(someString);
+        int strSlot = hashTable.put(someString);
+        Assertions.assertEquals(strHash, strSlot, "Failed putToEmpty");
+    }
+
+    @Test
+    void putToFull() {
+        for (int i = 0; i < testKeys.length; i++) {
+            hashTable.slots[hashTable.seekSlot(testKeys[i])] = testKeys[i];
+        }
+
+        String someString = "Any value";
+        int strSlot = hashTable.put(someString);
+        Assertions.assertEquals(-1, strSlot, "Failed putToFull");
+    }
+
+    @Test
+    void putWithCollision() {
+        hashTable.put("a");
+        hashTable.put("r");
+//        printTable();
+        Assertions.assertEquals(12, hashTable.seekSlot("a"), "Failed putWithCollision a slot");
+        Assertions.assertEquals(15, hashTable.seekSlot("r"), "Failed putWithCollision r slot");
+    }
+
+
+    @Test
+    void findInEmptyTable() {
+        String someString = "Any string";
+        Assertions.assertEquals(-1, hashTable.find(someString), "Field findInEmptyTable");
+    }
+
+    @Test
+    void findInTable() {
+        int a = hashTable.put("a");
+        int b = hashTable.put("b");
+        int c = hashTable.put("c");
+        int r = hashTable.put("r");
+
+        Assertions.assertEquals(a, hashTable.find("a"), "Field findInTable a string");
+        Assertions.assertEquals(b, hashTable.find("b"), "Field findInTable b string");
+        Assertions.assertEquals(c, hashTable.find("c"), "Field findInTable c string");
+        Assertions.assertEquals(r, hashTable.find("r"), "Field findInTable r string");
+    }
+
+    @Test
+    void printTableTest() {
+        System.out.println("---------------------hashTable------------------");
+        for (int i = 0; i < testKeys.length; i++) {
+            System.out.println(hashTable.hashFun(testKeys[i]));
+        }
+    }
+
+    void printTable() {
+        System.out.println("---------------------hashTable------------------");
+        for (int i = 0; i < hashTable.slots.length; i++) {
+            System.out.println(hashTable.slots[i]);
+        }
+    }
+
 }
