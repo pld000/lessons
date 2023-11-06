@@ -72,5 +72,24 @@ class NativeDictionaryTest {
     @Test
     void get() {
         Assertions.assertNull(dictionary.get("some_key"), "Failed get for empty");
+
+        for (int i = 0; i < testKeys.length; i++) {
+            dictionary.put(testKeys[i], "Some test value " + i);
+        }
+
+        for (int i = 0; i < testKeys.length; i++) {
+            Assertions.assertTrue(dictionary.isKey(testKeys[i]), "Failed get isKey for full dictionary");
+            Assertions.assertEquals("Some test value " + i, dictionary.get(testKeys[i]), "Failed get for full dictionary");
+        }
+
+        for (int i = 0; i < testKeys.length; i++) {
+            dictionary.put(testKeys[i], "Some New test value " + i);
+        }
+
+        for (int i = 0; i < testKeys.length; i++) {
+            Assertions.assertTrue(dictionary.isKey(testKeys[i]), "Failed get isKey for full dictionary");
+            Assertions.assertNotEquals("Some test value " + i, dictionary.get(testKeys[i]), "Failed get for full dictionary");
+            Assertions.assertEquals("Some New test value " + i, dictionary.get(testKeys[i]), "Failed get for full dictionary");
+        }
     }
 }
