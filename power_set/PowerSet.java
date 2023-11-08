@@ -69,7 +69,8 @@ public class PowerSet {
 
     public int _hashFun(String value) {
         long charSum = 0;
-        int k = value.length() * 2 + 1;
+//        int k = value.length() * 2 + 1;
+        int k = 131;
 //        var k = 10;
         for (int i = 0; i < value.length(); i++) {
              // charSum += (long) value.charAt(i) * (i + 1);

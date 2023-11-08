@@ -73,9 +73,10 @@ class PowerSetTest {
     public String getRandomString() {
         int leftLimit = 48; // цифра '0'
         int rightLimit = 122; // буква 'z'
-        int targetStringLength = 20;
+        int targetStringLength = 40;
         Random random = new Random();
 
         return random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+//        return random.ints(leftLimit, rightLimit + 1).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
     }
 }
