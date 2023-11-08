@@ -57,22 +57,23 @@ class PowerSetTest {
     void someTEst() {
         int collisions = 0;
         ArrayList<Integer> arr = new ArrayList<>();
-        for(int i = 0; i< 20000; i++) {
-            int hash = powerSet._hashFun(getRandomString());
-            if (arr.contains(hash)) {
-                collisions++;
-            }
+        for (int i = 0; i < 20000; i++) {
+            String genStr = getRandomString();
+            int hash = powerSet._hashFun(genStr);
+
+            if (arr.contains(hash)) collisions++;
+
             arr.add(hash);
-            System.out.print(hash + ", ");
-//            System.out.print(getRandomString() + ", ");
+            //   System.out.print(hash + ", ");
+//            System.out.print(genStr + ", ");
         }
-            System.out.println(collisions + " collisions");
+        System.out.println(collisions + " collisions");
     }
 
     public String getRandomString() {
         int leftLimit = 48; // цифра '0'
         int rightLimit = 122; // буква 'z'
-        int targetStringLength = 10;
+        int targetStringLength = 20;
         Random random = new Random();
 
         return random.ints(leftLimit, rightLimit + 1).filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength).collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
