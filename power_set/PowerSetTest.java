@@ -1,6 +1,7 @@
 package power_set;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +27,15 @@ class PowerSetTest {
 
     @Test
     void put() {
+        String someValue = "some_value";
+        powerSet.put(someValue);
+        int slotBefore = powerSet._findSlot(someValue);
+        Assertions.assertEquals(1, powerSet.size(), "Failed put->size someValue to empty");
+        powerSet.put(someValue);
+        int slotAfter = powerSet._findSlot(someValue);
+        Assertions.assertEquals(1, powerSet.size(), "Failed put(the same value)->size someValue to empty");
+        Assertions.assertEquals(slotBefore, slotAfter, "Failed put(the same value) slot");
+
     }
 
     @Test

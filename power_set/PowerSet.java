@@ -1,15 +1,15 @@
 package power_set;
 
-import java.util.Objects;
+import java.util.*;
 
 public class PowerSet {
-    public String[] slots;
-    private final int _step = 3;
+    public String[] values;
+    private final int _step = 2501;
     private final int _size = 20000;
     private int _capacity = 0;
 
     public PowerSet() {
-        slots = new String[_size];
+        values = new String[_size];
     }
 
     public int size() {
@@ -18,66 +18,112 @@ public class PowerSet {
 
 
     public void put(String value) {
+        values[_seekSlot(value)] = value;
         _capacity++;
     }
 
     public boolean get(String value) {
-        // возвращает true если value имеется в множестве,
-        // иначе false
-        return false;
+        return _findSlot(value) == -1;
     }
 
     public boolean remove(String value) {
-        // возвращает true если value удалено
-        // иначе false
+        int slot = _findSlot(value);
+
+        if (slot == -1) {
+            return false;
+        }
+
+        values[slot] = null;
         _capacity--;
-        return false;
+        return true;
     }
 
     public PowerSet intersection(PowerSet set2) {
-        // пересечение текущего множества и set2
-        return null;
+        PowerSet resultSet = new PowerSet();
+
+        if (size() == 0) {
+            return resultSet;
+        }
+
+        for (String value : values) {
+            if (value != null && set2.get(value)) {
+                resultSet.put(value);
+            }
+        }
+
+        return resultSet;
     }
 
     public PowerSet union(PowerSet set2) {
-        // объединение текущего множества и set2
-        return null;
+        PowerSet resultSet = new PowerSet();
+
+        for (int i = 0; i < _size; i++) {
+            if (values[i] != null) {
+                resultSet.put(values[i]);
+            }
+
+            if (set2.values[i] != null) {
+                resultSet.put(set2.values[i]);
+            }
+        }
+
+        return resultSet;
     }
 
     public PowerSet difference(PowerSet set2) {
-        // разница текущего множества и set2
-        return null;
+        PowerSet resultSet = new PowerSet();
+
+        for (int i = 0; i < _size; i++) {
+            String _value = values[i];
+            if (_value != null && !set2.get(_value)) {
+                resultSet.put(_value);
+            }
+        }
+
+        return resultSet;
     }
 
     public boolean isSubset(PowerSet set2) {
-        // возвращает true, если set2 есть
-        // подмножество текущего множества,
-        // иначе false
-        return false;
+        for (int i = 0; i < _size; i++) {
+            String _value = set2.values[i];
+            if (_value != null && !get(_value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public int _seekSlot(String value) {
         int slot = _hashFun(value);
-        String currentValue = slots[slot];
+        String currentValue = values[slot];
 
-        while (slots[slot] != null && !Objects.equals(slots[slot], currentValue)) {
+        while (values[slot] != null && !Objects.equals(values[slot], currentValue) && !Objects.equals(values[slot], value)) {
             slot = (slot + _step) % _size;
         }
 
-        return slot;
+        return values[slot] == null || Objects.equals(values[slot], value) ? slot : -1;
     }
 
     public int _hashFun(String value) {
         long charSum = 0;
-//        int k = value.length() * 2 + 1;
-        int k = 131;
-//        var k = 10;
+        int k = value.length() * 2 + 1;
+
         for (int i = 0; i < value.length(); i++) {
-             // charSum += (long) value.charAt(i) * (i + 1);
-//             charSum += (int) value.charAt(i) * ((long) k * i + 1);
-             charSum += value.charAt(i) * ((long) Math.pow(k, i));
+            charSum += value.charAt(i) * ((long) Math.pow(k, i));
         }
 
         return (int) charSum % _size;
+    }
+
+    public int _findSlot(String value) {
+        int slot = _hashFun(value);
+        String currentValue = values[slot];
+
+        while (!Objects.equals(values[slot], currentValue) && !Objects.equals(values[slot], value)) {
+            slot = (slot + _step) % _size;
+        }
+
+        return Objects.equals(values[slot], value) ? slot : -1;
     }
 }
