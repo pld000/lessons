@@ -13,17 +13,28 @@ public class PowerSet {
     }
 
     public int size() {
-        return _capacity;
+        int res = 0;
+        for (int i = 0; i < _size; i++) {
+            if (values[i] != null) {
+                res++;
+            }
+        }
+        return res;
     }
 
 
     public void put(String value) {
-        values[_seekSlot(value)] = value;
-        _capacity++;
+        int slot = _seekSlot(value);
+
+        if (Objects.equals(values[slot], value)) {
+            return;
+        }
+
+        values[slot] = value;
     }
 
     public boolean get(String value) {
-        return _findSlot(value) == -1;
+        return _findSlot(value) != -1;
     }
 
     public boolean remove(String value) {
@@ -34,7 +45,6 @@ public class PowerSet {
         }
 
         values[slot] = null;
-        _capacity--;
         return true;
     }
 
@@ -98,11 +108,15 @@ public class PowerSet {
         int slot = _hashFun(value);
         String currentValue = values[slot];
 
+        if (currentValue == null || currentValue.equals(value)) {
+            return slot;
+        }
+
+        slot = (slot + _step) % _size;
         while (values[slot] != null && !Objects.equals(values[slot], currentValue) && !Objects.equals(values[slot], value)) {
             slot = (slot + _step) % _size;
         }
-
-        return values[slot] == null || Objects.equals(values[slot], value) ? slot : -1;
+        return slot;
     }
 
     public int _hashFun(String value) {
@@ -110,7 +124,7 @@ public class PowerSet {
         int k = value.length() * 2 + 1;
 
         for (int i = 0; i < value.length(); i++) {
-            charSum += value.charAt(i) * ((long) Math.pow(k, i));
+            charSum += value.charAt(i) * ((long) k * i + 1);
         }
 
         return (int) charSum % _size;
@@ -120,6 +134,11 @@ public class PowerSet {
         int slot = _hashFun(value);
         String currentValue = values[slot];
 
+        if (Objects.equals(values[slot], value)) {
+            return slot;
+        }
+
+        slot = (slot + _step) % _size;
         while (!Objects.equals(values[slot], currentValue) && !Objects.equals(values[slot], value)) {
             slot = (slot + _step) % _size;
         }
