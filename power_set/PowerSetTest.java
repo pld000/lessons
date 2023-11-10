@@ -173,33 +173,65 @@ class PowerSetTest {
         PowerSet set2 = new PowerSet();
         String[] setValues1 = {"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"};
         String[] setValues2 = {"s1", "s22", "s3", "s44", "s5", "s6", "s77", "s8", "s9"};
-        String[] unionValues = {"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s22", "s44", "s77"};
+        String[] differenceValues = {"s2", "s4", "s7"};
 
-        PowerSet emptySet = set1.union(set2);
-        Assertions.assertEquals(0, emptySet.size(), "union empty size");
+        PowerSet emptySet = set1.difference(set2);
+        Assertions.assertEquals(0, emptySet.size(), "difference empty size");
 
         for (int i = 0; i < setValues1.length; i++) {
             set1.put(setValues1[i]);
         }
 
-        PowerSet emptyUnionSet = set1.union(set2);
-        Assertions.assertEquals(setValues1.length, emptyUnionSet.size(), "emptyUnionSet size");
+        PowerSet emptyDifferenceSet = set1.difference(set2);
+        Assertions.assertEquals(emptyDifferenceSet.size(), set1.size(), "emptyDifferenceSet size");
 
         for (int i = 0; i < setValues2.length; i++) {
             set2.put(setValues2[i]);
         }
 
-        PowerSet twoUnionSet = set1.union(set2);
-        Assertions.assertEquals(unionValues.length, twoUnionSet.size(), "twoUnion size");
+        PowerSet differenceSet = set1.difference(set2);
+        Assertions.assertEquals(differenceValues.length, differenceSet.size(), "differenceSet size");
 
-        for (int i = 0; i < unionValues.length; i++) {
-            Assertions.assertTrue(twoUnionSet.get(unionValues[i]), "twoUnion get " + i);
+        for (int i = 0; i < differenceValues.length; i++) {
+            Assertions.assertTrue(differenceSet.get(differenceValues[i]), "differenceSet get " + i);
         }
     }
 
     @Test
     void isSubset() {
+        PowerSet set1 = new PowerSet();
+        PowerSet set2 = new PowerSet();
+        PowerSet set3 = new PowerSet();
+        PowerSet set4 = new PowerSet();
 
+        String[] setValues1 = {"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"};
+        String[] setValues2 = {"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11"};
+        String[] setValues3 = {"s2", "s4", "s7"};
+        String[] setValues4 = {"s1", "s22", "s3"};
+
+        set1.isSubset(set2);
+        Assertions.assertTrue(set1.isSubset(set2), "isSubset empty sets");
+
+        for (int i = 0; i < setValues1.length; i++) {
+            set1.put(setValues1[i]);
+        }
+        Assertions.assertTrue(set1.isSubset(set2), "isSubset not empty with empty");
+
+        for (int i = 0; i < setValues2.length; i++) {
+            set2.put(setValues2[i]);
+        }
+        Assertions.assertTrue(set2.isSubset(set1), "set1 is subset of set2");
+        Assertions.assertFalse(set1.isSubset(set2), "set2 is not subset of set1");
+
+        for (int i = 0; i < setValues3.length; i++) {
+            set3.put(setValues3[i]);
+        }
+        for (int i = 0; i < setValues4.length; i++) {
+            set4.put(setValues4[i]);
+        }
+
+        Assertions.assertTrue(set1.isSubset(set3), "set3 is subset of set1");
+        Assertions.assertFalse(set1.isSubset(set4), "set4 is not subset of set1");
     }
 
     @Test
