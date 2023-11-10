@@ -65,7 +65,7 @@ class PowerSetTest {
 
     @Test
     void remove() {
-        Boolean res = powerSet.remove("Any_testing_string");
+        boolean res = powerSet.remove("Any_testing_string");
         Assertions.assertFalse(res, "remove from empty");
         Assertions.assertEquals(0, powerSet.size(), "removeEmpty->size");
 
@@ -86,6 +86,39 @@ class PowerSetTest {
         powerSet.remove(arr.get(8372));
 
         Assertions.assertEquals(19992, powerSet.size(), "remove a few elements -> size");
+    }
+
+    @Test
+    void removeAll() {
+        int beginSize = 0;
+        int endSize = 303;
+        ArrayList<String> arr = new ArrayList<>();
+        String someStr = "S_302"; // 6278
+
+        System.out.println(powerSet._hashFun(someStr));
+//        powerSet.put("S_299");
+//        powerSet.put("S_300");
+//        powerSet.put("S_301");
+//        powerSet.put(someStr);
+//      //  System.out.println(powerSet._findSlot(someStr));
+//        System.out.println(powerSet.remove("S_299"));
+//        System.out.println(powerSet.remove("S_300"));
+//        System.out.println(powerSet.remove("S_301"));
+//        System.out.println(powerSet.remove(someStr));
+
+        for (int i = beginSize; i < endSize; i++) {
+           // String genStr = getRandomString();
+            String genStr = "S_" + i;
+            arr.add(genStr);
+            powerSet.put(genStr);
+        }
+
+        for (int i = beginSize; i < endSize; i++) {
+            System.out.println(powerSet._findSlot(arr.get(i)) + " slot " + arr.get(i));
+            Assertions.assertTrue(powerSet.remove(arr.get(i)), "removeAll " + " iteration: " + i + " value: " + arr.get(i) );
+        }
+
+//        Assertions.assertEquals(0, powerSet.size(), "removeMany a few elements -> size");
     }
 
     @Test
