@@ -136,13 +136,14 @@ public class PowerSet {
             return slot;
         }
 
-        int i = 0;
         slot = (slot + _step) % _size;
-        while (!Objects.equals(values[slot], value) && i <= _size) {
+        for (int i = 0; i < _size; i++) {
+            if (Objects.equals(values[slot], value)) {
+                return slot;
+            }
             slot = (slot + _step) % _size;
-            i++;
         }
 
-        return Objects.equals(values[slot], value) ? slot : -1;
+        return -1;
     }
 }
