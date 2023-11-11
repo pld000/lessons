@@ -4,9 +4,8 @@ import java.util.*;
 
 public class PowerSet {
     public String[] values;
-    private final int _step = 2501;
+    private final int _step = 3511;
     private final int _size = 20000;
-    private int _capacity = 0;
 
     public PowerSet() {
         values = new String[_size];
@@ -108,7 +107,7 @@ public class PowerSet {
         int slot = _hashFun(value);
         String currentValue = values[slot];
 
-        if (currentValue == null || currentValue.equals(value)) {
+        if (currentValue == null || Objects.equals(currentValue, value)) {
             return slot;
         }
 
@@ -132,15 +131,16 @@ public class PowerSet {
 
     public int _findSlot(String value) {
         int slot = _hashFun(value);
-        String currentValue = values[slot];
 
         if (Objects.equals(values[slot], value)) {
             return slot;
         }
 
+        int i = 0;
         slot = (slot + _step) % _size;
-        while (!Objects.equals(values[slot], currentValue) && !Objects.equals(values[slot], value)) {
+        while (!Objects.equals(values[slot], value) && i <= _size) {
             slot = (slot + _step) % _size;
+            i++;
         }
 
         return Objects.equals(values[slot], value) ? slot : -1;
