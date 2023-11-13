@@ -6,7 +6,7 @@ public class BloomFilter {
 
     public BloomFilter(int f_len) {
         filter_len = f_len;
-        filter = 0b0;
+        filter = 0;
     }
 
     public int hash1(String str1) {
@@ -28,8 +28,8 @@ public class BloomFilter {
     }
 
     public void add(String str1) {
-        int hashFilter1 = filter << hash1(str1) | 1;
-        int hashFilter2 = filter << hash2(str1) | 1;
+        int hashFilter1 = 1 << hash1(str1);
+        int hashFilter2 = 1 << hash2(str1);
 
         filter = filter | hashFilter1 | hashFilter2;
     }
