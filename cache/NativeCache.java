@@ -10,7 +10,7 @@ public class NativeCache<T> {
     public int[] hits;
 
     public int _capacity;
-    private final int _step;
+    public final int _step;
 
     public NativeCache(int sz, Class clazz) {
         size = sz;
@@ -34,6 +34,7 @@ public class NativeCache<T> {
 
         slots[slot] = key;
         values[slot] = value;
+        hits[slot] = 0;
         _capacity = _capacity < size ? _capacity + 1 : _capacity;
     }
 
@@ -65,15 +66,16 @@ public class NativeCache<T> {
             return slot;
         }
 
-        int replacementSlot = -1;
+        int suitableSlot = _getSuitableSlot(-1, slot);
         String currentValue = slots[slot];
         slot = (slot + _step) % size;
+
         while (slots[slot] != null && !Objects.equals(slots[slot], value) && !Objects.equals(slots[slot], currentValue)) {
             slot = (slot + _step) % size;
-            replacementSlot = _getReplacementSlot(replacementSlot, slot);
+            suitableSlot = _getSuitableSlot(suitableSlot, slot);
         }
 
-        return slots[slot] == null || Objects.equals(slots[slot], value) ? slot : replacementSlot;
+        return suitableSlot;
     }
 
     public int _getStep(int size) {
@@ -81,13 +83,13 @@ public class NativeCache<T> {
         return step % 2 == 0 ? step + 1 : step;
     }
 
-    public int _getReplacementSlot(int replacementSlot, int slot) {
+    public int _getSuitableSlot(int suitableSlot, int slot) {
         if (_capacity < size) {
-            return -1;
+            return slot;
         }
 
-        replacementSlot = replacementSlot == -1 ? slot : replacementSlot;
+        suitableSlot = suitableSlot == -1 ? slot : suitableSlot;
 
-        return hits[replacementSlot] - hits[slot] >= 0 ? slot : replacementSlot;
+        return hits[suitableSlot] - hits[slot] >= 0 ? slot : suitableSlot;
     }
 }
