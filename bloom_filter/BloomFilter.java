@@ -10,34 +10,48 @@ public class BloomFilter {
     }
 
     public int hash1(String str1) {
-        int result = 0;
+        // result - hashForString
+        int hashForString = 0;
+        // значение хеш функции для строки
         for (int i = 0; i < str1.length(); i++) {
-            result = (result * 17 + str1.charAt(i)) % filter_len;
+            hashForString = (hashForString * 17 + str1.charAt(i)) % filter_len;
         }
 
-        return result;
+        return hashForString;
     }
 
     public int hash2(String str1) {
-        int result = 0;
+        // result - hashForString
+        int hashForString = 0;
+        // значение хеш функции для строки
         for (int i = 0; i < str1.length(); i++) {
-            result = (result * 223 + str1.charAt(i)) % filter_len;
+            hashForString = (hashForString * 223 + str1.charAt(i)) % filter_len;
         }
 
-        return result;
+        return hashForString;
     }
 
     public void add(String str1) {
-        int hashFilter1 = 1 << hash1(str1);
-        int hashFilter2 = 1 << hash2(str1);
+        // hashFilter1 - elementFilterPosition1
+        int elementFilterPosition1 = 1 << hash1(str1);
+        // первая позиция строкового элемента в фильтре блюма
 
-        filter = filter | hashFilter1 | hashFilter2;
+        // hashFilter2 - elementFilterPosition2
+        int elementFilterPosition2 = 1 << hash2(str1);
+        // вторая позиция строкового элемента в фильтре блюма
+
+        filter = filter | elementFilterPosition1 | elementFilterPosition2;
     }
 
     public boolean isValue(String str1) {
-        int hashMove1 = hash1(str1);
-        int hashMove2 = hash2(str1);
+        // hashMove1 - elementFilterOffset1
+        int elementFilterOffset1 = hash1(str1);
+        // первый сдвиг фильтра блюма для определения наличия элемента
 
-        return (filter >> hashMove1 & 1) == 1 && (filter >> hashMove2 & 1) == 1;
+        // hashMove2 - elementFilterOffset2
+        int elementFilterOffset2 = hash2(str1);
+        // второй сдвиг фильтра блюма для определения наличия элемента
+
+        return (filter >> elementFilterOffset1 & 1) == 1 && (filter >> elementFilterOffset2 & 1) == 1;
     }
 }
