@@ -55,6 +55,4 @@ public class BloomFilter {
         return (filter >> elementFilterOffset1 & 1) == 1 && (filter >> elementFilterOffset2 & 1) == 1;
     }
 
-    public void doNothing() {
-    }
 }
