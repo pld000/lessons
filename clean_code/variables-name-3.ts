@@ -1,7 +1,4 @@
 ////////////////////////////////// 7.1 //////////////////////////////////
-import { IProductTypeUnavailableDay } from '../../../../../Projects/web.bakery-admin/src/app/modules/products/interfaces';
-import { baDateHelper } from '../../../../../Projects/web.bakery-admin/src/app/modules/shared/helpers';
-
 export class PostNumberDeliveryCheckComponent extends CustomComponent {
 // ...
   // differentCityFlag - isDifferentCity
