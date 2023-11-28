@@ -20,7 +20,7 @@ function getTimeIntervals(step: number = 1, startRange: number = 0, endRange: nu
 ////////////////////////////////// 2 //////////////////////////////////
 function _updateTotalPriceAndQuantity() {
   const { discount } = this.cake;
-  // Спецификаторы (префиксы и постфиксы)
+  //Спецификаторы (префиксы и постфиксы)
   //Before
   let totalPrice = 0;
   let totalQuantity = 0;
@@ -68,10 +68,10 @@ function sortExtraProducts(productType: IProductType): IExtraProduct[] {
   const productTypeExtraProductsWithAddons = productType.extraProducts.filter(({ addOns }) => addOns.length > 0);
   const productTypeExtraProductsWithoutAddons = productType.extraProducts.filter(({ addOns }) => addOns.length === 0);
   //After
-  const extraProductsWithAddons = productType.extraProducts.filter(({ addOns }) => addOns.length > 0);
-  const extraProductsAddonsEmpty = productType.extraProducts.filter(({ addOns }) => addOns.length === 0);
+  const epWithAddons = productType.extraProducts.filter(({ addOns }) => addOns.length > 0);
+  const epAddonsEmpty = productType.extraProducts.filter(({ addOns }) => addOns.length === 0);
 
-  return extraProductsWithAddons.concat(extraProductsAddonsEmpty);
+  return epWithAddons.concat(epAddonsEmpty);
 }
 
 ////////////////////////////////// 5 //////////////////////////////////
@@ -116,8 +116,101 @@ function getValidDateInterval(dateIntervals: IDateInterval[], currentDateInterva
 }
 
 ////////////////////////////////// 7 //////////////////////////////////
+//имена со скрытым смыслом
+//Before
+const hamstadBakeryId = 35;
+//After
+const privilegesBakeryId = 35;
+
+function initBakery() {
+  // ...
+  if (this.bakery.id === privilegesBakeryId) {
+    applyBakeryPrivileges(this.bakery);
+  }
+  // ...
+}
+
 ////////////////////////////////// 8 //////////////////////////////////
+async function editOrderLine(orderLine: IOrderLine) {
+  try {
+    // короткое, неинформативное имя
+    //Before
+    const result = orderLine.isCustom
+      ? await this.showCustomProductEditForm(orderLine)
+      : await this.showProductEditForm(orderLine);
+    //After
+    const updatedOrderLine = orderLine.isCustom
+      ? await this.showCustomProductEditForm(orderLine)
+      : await this.showProductEditForm(orderLine);
+
+    updatedOrderLine.id
+      ? this.editedOrder.updateOrderLine(updatedOrderLine)
+      : this.editedOrder.updateOrderLineNew(orderLine, updatedOrderLine);
+  } catch (e) {
+    console.log('EDIT_ORDER_LINE_ERROR: ', e);
+  }
+}
+
 ////////////////////////////////// 9 //////////////////////////////////
+function getExpirationTime(checkingDate: Date): number {
+  //...
+  //Спецификаторы (суффиксы)
+  //Before
+  const timeDiff = moment(checkingDate).diff(new Date(), 'hours');
+  //After
+  const timeDiff_hrs = moment(checkingDate).diff(new Date(), 'hours');
+  //...
+}
+
 ////////////////////////////////// 10 //////////////////////////////////
+function extendWithMinPrice(productTypeSizes: ISize[]): ISize[] {
+  return productTypeSizes.map((size) => {
+    //Спецификаторы (префиксы и постфиксы)
+    //Before
+    let minPrice = 0;
+    //After
+    let priceMin = 0;
+
+    if (size.variants.length > 1) {
+      const prices = size.variants
+        .filter(({ price }) => price > 0)
+        .map(({ price }) => price);
+
+      priceMin = Math.min(prices);
+    }
+
+    return { ...size, priceMin };
+  });
+}
+
 ////////////////////////////////// 11 //////////////////////////////////
+function applyDiscount(price: number, discount: { percentage?: number, value?: number, type: string }): number {
+  //Спецификаторы (суффиксы)
+  //Before
+  const { percentage, value } = discount;
+  //After
+  const { percentage: discount_pct, value: discount_amt } = discount;
+
+  if (discount_amt) {
+    return price - discount_amt;
+  }
+
+  if (discount_pct) {
+    return price - price / discount_pct * 100;
+  }
+
+  return price;
+}
+
 ////////////////////////////////// 12 //////////////////////////////////
+async function initOrders() {
+  // Спецификаторы (префиксы и постфиксы)
+  //Before
+  this.ordersList = await getOrders(this.bakery.id);
+  this.totalOrdersSum = calcOrdersSum(this.ordersList);
+  //After
+  this.ordersGroup = await getOrders(this.bakery.id);
+  this.ordersSumTotal = calcOrdersSum(this.ordersList);
+
+  //...
+}
