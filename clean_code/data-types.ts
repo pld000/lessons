@@ -1,13 +1,4 @@
 ////////////////////////////////// 1 //////////////////////////////////
-import { IPrintingPictures, IQuestion } from '../../../../../Projects/web.bakery-admin/src/app/modules/shared/interfaces';
-import { IDeposit } from '@cakeiteasy/web-utils';
-import {
-  IAddOn,
-  IExtraProductGroup,
-  IExtraProductGroupExtraProduct
-} from '../../../../../Projects/web.bakery-admin/src/app/modules/products/interfaces';
-import { builderHelper } from '../../../../../Projects/web.bakery-admin/src/app/modules/products/product-type-builder/product-type-builder.helper';
-
 /**
  * Улучшил проверку изменения цены, округлив цены до двух знаков
  * */
