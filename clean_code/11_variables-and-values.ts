@@ -1,7 +1,4 @@
 ////////////////////////////////// 1 //////////////////////////////////
-import { OfferOrderModel } from '../../../../../Projects/web.bakery-admin/src/app/modules/offers/models/offer-order.model';
-import { IOrderLine } from '../../../../../Projects/web.bakery-admin/src/app/modules/orders';
-
 /**
  *  Сделал объявление переменной явным, поменял модификатор let на const,
  * */
