@@ -37,7 +37,19 @@ async function initUpsellProducts() {
 /**
  *
  * */
+  private async _init() {
+    const { companyId, userId } = this._route.snapshot.params;
+    this.company = await this._companyApi.getCompany(companyId).toPromise();
+    this.user = await this._usersCustomersApi.getUserById(userId).toPromise();
+    // const invoiceInfo: IUserInvoiceInfo = await this._usersCustomersApi.getUserInvoiceInfo(userId).toPromise();
+    // const deliveryAddress = await this._usersCustomersApi.getDeliveryAddress(userId).toPromise();
+    //
+    // const patch = this._getUserFormPatch({ user: this.user, invoiceInfo, deliveryAddress});
 
+    this.userForm = this._getUserForm(this.bakeryId);
+
+    await this._loadUserOrders();
+  }
 
 ////////////////////////////////// 5 //////////////////////////////////
 /**
