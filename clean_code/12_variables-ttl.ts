@@ -1,14 +1,30 @@
 ////////////////////////////////// 1 //////////////////////////////////
-/**
- *
+ * Изменил глобальную область видимости для переменных
+ * categoryId, bakeryId, unpublishedParams на локальную
  * */
-
+function getUnpublishedProductTypes(categoryId: number, bakeryId: number, params) {
+  const unpublishedParams = { ...params, published: 'false' };
+  return this._productsApi
+    .getProductTypesForBakeryAdmin(bakeryId, categoryId, unpublishedParams)
+    .then((productsTypes) => this.unpublishedQuantity = productsTypes);
+}
 
 ////////////////////////////////// 2 //////////////////////////////////
 /**
- *
+ * Объявление переменной categoryId, находилось за пределами if, а использовалась
+ * внутри if, поэтому перенес ее объявление внутрь if блока, чтобы минимизировать область видимости
  * */
-
+const categorySubscription = combineLatest([this._route.queryParams, this._categoriesManager.bakeryCategories$])
+  .subscribe(([queryParams, categories]) => {
+    this.categories = categories && categories.filter((c) => c.productTypesCount > 0);
+    // ...
+    if (this.categories && this.categories.length) {
+      const { categoryId } = queryParams; //
+      const currentCategory = [...this.categories, ...this.newCategories].find(({ id }) => id === categoryId);
+      this.currentCategoryChanged$.next(currentCategory);
+      // ...
+    }
+  });
 
 ////////////////////////////////// 3 //////////////////////////////////
 /**
