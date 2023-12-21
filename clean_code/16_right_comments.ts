@@ -10,7 +10,22 @@ export const COLOR_PATTERN = '^#[0-9A-Fa-f]{6}$';
 /**
  *
  * */
+  protected _transformProductType(productType: IProductTypeOverview) {
+    const transformedProduct = [];
+    const productTypeClone = cloneDeep(productType);
+    const { sizes, discount, parentType } = productTypeClone;
 
+    sizes.forEach((size: IProductSize, index) => {
+      /**
+       * A product with standard variant, doesn't have price and productNumber,
+       * so there should be set from size;
+       * */
+      if (this._isStandardVariant(size.products)) {
+        const { products, price, productNumber } = size;
+        size = { ...size, products: products.map(p => ({ ...p, price, productNumber }))
+        };
+      }
+      }
 
 ////////////////////////////////// 3 //////////////////////////////////
 /**
