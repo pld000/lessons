@@ -67,7 +67,16 @@ export interface Bakery {
 /**
  *
  * */
-
+      /**
+       * Don't merge in one
+       * size = {
+       *      (...parentType && this._extendSizeWithParentTypeSize(size, parentType.sizes)),
+       *      ...this._extendSizeWithDiscount(size, discount)
+       * }
+       * because it is reset product price
+       * */
+      size = parentType && this._extendSizeWithParentTypeSize(size, parentType.sizes) || size;
+      size = { ...this._extendSizeWithDiscount(size, discount) };
 
 ////////////////////////////////// 10 //////////////////////////////////
 /**
