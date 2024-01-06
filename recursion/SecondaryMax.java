@@ -3,19 +3,24 @@ package recursion;
 import java.util.ArrayList;
 
 public class SecondaryMax {
-    public static int getSecondMax(ArrayList<Integer> numbers) {
-        if (numbers.isEmpty()) {
-            return 0;
-        } else if (numbers.size() == 1) {
-            return numbers.get(0);
-        } else if (numbers.size() == 2) {
-            return Math.min(numbers.get(0), numbers.get(1));
+    public static int getSecondMax(ArrayList<Integer> numbers, int currentIndex) {
+        if (currentIndex == numbers.size() - 1) {
+            return numbers.get(numbers.size() - 2);
         }
 
-        int minNumber = Math.min(numbers.get(0), Math.min(numbers.get(1), numbers.get(2)));
-        int removingIndex = numbers.get(0) == minNumber ? 0 : numbers.get(1) == minNumber ? 1 : 2;
-        numbers.remove(removingIndex);
+        int nextIndex = currentIndex + 1;
+        int nextNextIndex = currentIndex + (currentIndex == numbers.size() - 2 ? 1 : 2);
 
-        return getSecondMax(numbers);
+        int min = Math.min(numbers.get(currentIndex), Math.min(numbers.get(nextIndex), numbers.get(nextNextIndex)));
+        int replacingIndex = numbers.get(currentIndex) == min ? currentIndex : numbers.get(nextIndex) == min ? nextIndex : nextNextIndex;
+
+        numbers.set(replacingIndex, numbers.get(currentIndex));
+        numbers.set(currentIndex, min);
+
+        return getSecondMax(numbers, ++currentIndex);
+    }
+
+    public static int getSecondMax(ArrayList<Integer> numbers) {
+        return getSecondMax(numbers, 0);
     }
 }

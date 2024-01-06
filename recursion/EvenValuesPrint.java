@@ -13,8 +13,7 @@ public class EvenValuesPrint {
             System.out.println(value);
         }
 
-        currentIndex++;
-        print(list, currentIndex);
+        print(list, ++currentIndex);
     }
     public static void print(ArrayList<Integer> list) {
         print(list, 0);
