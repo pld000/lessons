@@ -1,7 +1,7 @@
 package recursion;
 
 public class NumbersDigitSum {
-    public int getSum(double number) {
+    public static int getSum(double number) {
         if (number == 0) {
             return 0;
         }
