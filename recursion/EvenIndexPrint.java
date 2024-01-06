@@ -2,15 +2,14 @@ package recursion;
 
 import java.util.ArrayList;
 
-public class EvenValuesPrint {
+public class EvenIndexPrint {
     public static void print(ArrayList<Integer> list, int currentIndex) {
         if (currentIndex == list.size()) {
             return;
         }
 
-        int value = list.get(currentIndex);
-        if (value % 2 == 0) {
-            System.out.println(value);
+        if (currentIndex % 2 == 0) {
+            System.out.println(list.get(currentIndex));
         }
 
         currentIndex++;
