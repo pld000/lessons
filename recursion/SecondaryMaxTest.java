@@ -24,5 +24,14 @@ class SecondaryMaxTest {
         ArrayList<Integer> numbers5 = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0));
         Assertions.assertEquals(0, SecondaryMax.getSecondMax(numbers5), "Failed - numbers5");
 
+        ArrayList<Integer> numbers6 = new ArrayList<>(Arrays.asList(8));
+        Assertions.assertEquals(8, SecondaryMax.getSecondMax(numbers6), "Failed - numbers6");
+
+        ArrayList<Integer> numbers7 = new ArrayList<>(Arrays.asList(7, 8));
+        Assertions.assertEquals(7, SecondaryMax.getSecondMax(numbers7), "Failed - numbers7");
+
+        ArrayList<Integer> numbers8 = new ArrayList<>();
+        Assertions.assertNull(SecondaryMax.getSecondMax(numbers8), "Failed - numbers8");
+
     }
 }

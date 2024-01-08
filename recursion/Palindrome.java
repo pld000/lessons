@@ -1,12 +1,17 @@
 package recursion;
 
 public class Palindrome {
-    public static boolean check(String str, int currentIndex) {
-        if (currentIndex >= str.length() / 2) {
+    public static boolean check(String str, int startIndex) {
+        if (startIndex >= str.length() / 2) {
             return true;
         }
 
-        return str.charAt(currentIndex) == str.charAt(str.length() - ++currentIndex) && check(str, currentIndex);
+        int endIndex = str.length() - 1 - startIndex;
+        if (str.charAt(startIndex) != str.charAt(endIndex)) {
+            return false;
+        }
+
+        return check(str, startIndex + 1);
     }
 
     public static boolean check(String str) {

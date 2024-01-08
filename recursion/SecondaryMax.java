@@ -3,24 +3,32 @@ package recursion;
 import java.util.ArrayList;
 
 public class SecondaryMax {
-    public static int getSecondMax(ArrayList<Integer> numbers, int currentIndex) {
+    public static Integer getSecondMax(ArrayList<Integer> numbers, int currentIndex, int maxNum, int secondMaxNum) {
         if (currentIndex == 0) {
-            return numbers.get(1);
+            return secondMaxNum;
         }
 
-        int prevIndex = Math.max(currentIndex - 1, 0);
-        int prevPrevIndex = Math.max(currentIndex - 2, 0);
+        if (maxNum < numbers.get(currentIndex)) {
+            secondMaxNum = maxNum;
+            maxNum = numbers.get(currentIndex);
+        } else {
+            secondMaxNum = Math.max(secondMaxNum, numbers.get(currentIndex));
+        }
 
-        int min = Math.min(numbers.get(currentIndex), Math.min(numbers.get(prevIndex), numbers.get(prevPrevIndex)));
-        int replacingIndex = numbers.get(currentIndex) == min ? currentIndex : numbers.get(prevIndex) == min ? prevIndex : prevPrevIndex;
-
-        numbers.set(replacingIndex, numbers.get(currentIndex));
-        numbers.set(currentIndex, min);
-
-        return getSecondMax(numbers, --currentIndex);
+        return getSecondMax(numbers, --currentIndex, maxNum, secondMaxNum);
     }
 
-    public static int getSecondMax(ArrayList<Integer> numbers) {
-        return getSecondMax(numbers, numbers.size() - 1);
+    public static Integer getSecondMax(ArrayList<Integer> numbers) {
+        if (numbers.isEmpty()) {
+            return null;
+        } else if (numbers.size() == 1) {
+            return numbers.get(0);
+        }
+
+        int currentIndex = numbers.size() - 1;
+        int maxNum = Math.max(numbers.get(currentIndex), numbers.get(currentIndex - 1));
+        int secondMaxNum = Math.min(numbers.get(currentIndex), numbers.get(currentIndex - 1));
+
+        return getSecondMax(numbers, currentIndex - 1, maxNum, secondMaxNum);
     }
 }
