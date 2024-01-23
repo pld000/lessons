@@ -10,15 +10,24 @@ public class SimpleTree<T> {
     }
 
     public void AddChild(SimpleTreeNode<T> ParentNode, SimpleTreeNode<T> NewChild) {
-        ParentNode.Children.add(NewChild);
-        NewChild.Parent = ParentNode;
+        NewChild.Parent = ParentNode == null ? Root : ParentNode;
+
+        if (NewChild.Parent.Children == null) {
+            NewChild.Parent.Children = new ArrayList<>();
+        }
+        NewChild.Parent.Children.add(NewChild);
     }
 
     public void DeleteNode(SimpleTreeNode<T> NodeToDelete) {
-        int deleteIndex = NodeToDelete.Parent.Children.indexOf(NodeToDelete);
-        if (deleteIndex >= 0) {
-            NodeToDelete.Parent.Children.remove(deleteIndex);
-            NodeToDelete = null;
+        if (NodeToDelete == null || NodeToDelete.Parent == null || NodeToDelete.Parent.Children == null) {
+            return;
+        }
+
+        int deletedIndex = NodeToDelete.Parent.Children.indexOf(NodeToDelete);
+
+        if (deletedIndex >= 0) {
+            NodeToDelete.Parent.Children.remove(deletedIndex);
+            NodeToDelete.Children = null;
         }
     }
 
