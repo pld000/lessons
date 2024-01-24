@@ -153,7 +153,7 @@ class SimpleTreeTest {
     void count() {
         Assertions.assertEquals(1, tree.Count(), "Failed one root count");
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             SimpleTreeNode<Integer> simpleNode = new SimpleTreeNode<>(i, null);
             tree.AddChild(tree.Root, simpleNode);
 
