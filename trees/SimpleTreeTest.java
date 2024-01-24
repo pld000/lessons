@@ -48,11 +48,6 @@ class SimpleTreeTest {
         Assertions.assertEquals(0, tree.Root.Children.size(), "Failed after delete from parent");
         Assertions.assertNull(firstChild.Children, "Failed removed children");
 
-
-//        SimpleTreeNode<Integer> secondChild = new SimpleTreeNode<>(33, null);
-//        tree.AddChild(firstChild, secondChild);
-//        Assertions.assertEquals(secondChild.NodeValue, firstChild.Children.get(0).NodeValue, "Failed secondChild to firstChild");
-
     }
 
     @Test
@@ -119,6 +114,28 @@ class SimpleTreeTest {
 
     @Test
     void findNodesByValue() {
+        Assertions.assertNull(tree.FindNodesByValue(9999), "Failed searching in only tree with root");
+        Assertions.assertEquals(tree.Root, tree.FindNodesByValue(99).get(0), "Failed searching in root object");
+        Assertions.assertEquals(99, tree.FindNodesByValue(99).get(0).NodeValue, "Failed searching in root value");
+
+        int length = 20;
+        for (int i = 0; i < length; i++) {
+            SimpleTreeNode<Integer> simpleNode = new SimpleTreeNode<>(i, null);
+            tree.AddChild(tree.Root, simpleNode);
+
+            for (int j = 0; j < length; j++) {
+                SimpleTreeNode<Integer> simpleChildNode1 = new SimpleTreeNode<>(j, null);
+                tree.AddChild(simpleNode, simpleChildNode1);
+
+                for (int k = 0; k < length; k++) {
+                    SimpleTreeNode<Integer> simpleChildNode2 = new SimpleTreeNode<>(k, null);
+                    tree.AddChild(simpleChildNode1, simpleChildNode2);
+                }
+            }
+        }
+
+        Assertions.assertEquals(7, tree.FindNodesByValue(7).get(0).NodeValue, "Failed searching in root value");
+        Assertions.assertEquals(421, tree.FindNodesByValue(7).size(), "Failed searching in root value");
     }
 
     @Test

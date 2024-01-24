@@ -41,8 +41,11 @@ public class SimpleTree<T> {
     }
 
     public List<SimpleTreeNode<T>> FindNodesByValue(T val) {
-        // ваш код поиска узлов по значению
-        return null;
+        List<SimpleTreeNode<T>> nodesList = new ArrayList<>();
+
+        _findNodesByValue(val, Root, nodesList);
+
+        return nodesList.size() > 0 ? nodesList : null;
     }
 
     public void MoveNode(SimpleTreeNode<T> OriginalNode, SimpleTreeNode<T> NewParent) {
@@ -58,6 +61,20 @@ public class SimpleTree<T> {
     public int LeafCount() {
         // количество листьев в дереве
         return 0;
+    }
+
+    private void _findNodesByValue(T val, SimpleTreeNode<T> node, List<SimpleTreeNode<T>> nodesList) {
+        if (node.NodeValue == val) {
+            nodesList.add(node);
+        }
+
+        if (node.Children == null) {
+            return;
+        }
+
+        for (int i = 0; i < node.Children.size(); i++) {
+            _findNodesByValue(val, node.Children.get(i), nodesList);
+        }
     }
 
     private void _addChildrenToList(List<SimpleTreeNode<T>> nodesList, SimpleTreeNode<T> node) {
