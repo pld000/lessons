@@ -153,24 +153,62 @@ class SimpleTreeTest {
     void count() {
         Assertions.assertEquals(1, tree.Count(), "Failed one root count");
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             SimpleTreeNode<Integer> simpleNode = new SimpleTreeNode<>(i, null);
             tree.AddChild(tree.Root, simpleNode);
 
-//            SimpleTreeNode<Integer> simpleChildNode1 = new SimpleTreeNode<>(100 + i, null);
-//            tree.AddChild(simpleNode, simpleChildNode1);
-//
-//            SimpleTreeNode<Integer> simpleChildNode2 = new SimpleTreeNode<>(1000 + i, null);
-//            tree.AddChild(simpleChildNode1, simpleChildNode2);
-//
-//            SimpleTreeNode<Integer> simpleChildNode3 = new SimpleTreeNode<>(10000 + i, null);
-//            tree.AddChild(simpleChildNode1, simpleChildNode3);
+            SimpleTreeNode<Integer> simpleChildNode1 = new SimpleTreeNode<>(100 + i, null);
+            tree.AddChild(simpleNode, simpleChildNode1);
+
+            SimpleTreeNode<Integer> simpleChildNode2 = new SimpleTreeNode<>(1000 + i, null);
+            tree.AddChild(simpleChildNode1, simpleChildNode2);
+
+            SimpleTreeNode<Integer> simpleChildNode3 = new SimpleTreeNode<>(10000 + i, null);
+            tree.AddChild(simpleChildNode1, simpleChildNode3);
         }
 
         Assertions.assertEquals(41, tree.Count(), "Field count for many");
     }
 
     @Test
+    void countForMuchMany() {
+        int length = 20;
+        for (int i = 0; i < length; i++) {
+            SimpleTreeNode<Integer> simpleNode = new SimpleTreeNode<>(i, null);
+            tree.AddChild(tree.Root, simpleNode);
+
+            for (int j = 0; j < length; j++) {
+                SimpleTreeNode<Integer> simpleChildNode1 = new SimpleTreeNode<>(j, null);
+                tree.AddChild(simpleNode, simpleChildNode1);
+
+                for (int k = 0; k < length; k++) {
+                    SimpleTreeNode<Integer> simpleChildNode2 = new SimpleTreeNode<>(k, null);
+                    tree.AddChild(simpleChildNode1, simpleChildNode2);
+                }
+            }
+        }
+
+        Assertions.assertEquals(8421, tree.Count(), "Failed countForMuchMany");
+    }
+
+    @Test
     void leafCount() {
+        int length = 20;
+        for (int i = 0; i < length; i++) {
+            SimpleTreeNode<Integer> simpleNode = new SimpleTreeNode<>(i, null);
+            tree.AddChild(tree.Root, simpleNode);
+
+            for (int j = 0; j < length; j++) {
+                SimpleTreeNode<Integer> simpleChildNode1 = new SimpleTreeNode<>(j, null);
+                tree.AddChild(simpleNode, simpleChildNode1);
+
+                for (int k = 0; k < length; k++) {
+                    SimpleTreeNode<Integer> simpleChildNode2 = new SimpleTreeNode<>(k, null);
+                    tree.AddChild(simpleChildNode1, simpleChildNode2);
+                }
+            }
+        }
+
+        Assertions.assertEquals(8000, tree.LeafCount(), "Failed LeafCountForMuchMany");
     }
 }

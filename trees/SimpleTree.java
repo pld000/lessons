@@ -53,7 +53,7 @@ public class SimpleTree<T> {
     }
 
     public int Count() {
-        return _getNodesCount(Root, 1);
+        return _getNodesCount(Root, 0);
     }
 
     public int LeafCount() {
@@ -62,26 +62,28 @@ public class SimpleTree<T> {
 
     private int _getLeafCount(SimpleTreeNode<T> node, int count) {
         if (node.Children == null) {
-            count++;
-            return count;
+            return ++count;
         }
 
         for (int i = 0; i < node.Children.size(); i++) {
-            count += _getNodesCount(node.Children.get(i), count);
+            count = _getLeafCount(node.Children.get(i), count);
         }
 
         return count;
     }
 
     private int _getNodesCount(SimpleTreeNode<T> node, int count) {
-System.out.println(count);
+        if (node.Parent == null) {
+            count++;
+        }
+
         if (node.Children == null) {
             return count;
         }
         count += node.Children.size();
 
         for (int i = 0; i < node.Children.size(); i++) {
-            count += _getNodesCount(node.Children.get(i), count);
+            count = _getNodesCount(node.Children.get(i), count);
         }
 
         return count;
