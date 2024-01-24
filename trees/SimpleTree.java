@@ -34,6 +34,8 @@ public class SimpleTree<T> {
     public List<SimpleTreeNode<T>> GetAllNodes() {
         List<SimpleTreeNode<T>> nodesList = new ArrayList<>();
 
+        nodesList.add(Root);
+        _addChildrenToList(nodesList, Root);
 
         return nodesList;
     }
@@ -56,6 +58,18 @@ public class SimpleTree<T> {
     public int LeafCount() {
         // количество листьев в дереве
         return 0;
+    }
+
+    private void _addChildrenToList(List<SimpleTreeNode<T>> nodesList, SimpleTreeNode<T> node) {
+        if (node.Children == null) {
+            return;
+        }
+
+        nodesList.addAll(node.Children);
+
+        for (int i = 0; i < node.Children.size(); i++) {
+            _addChildrenToList(nodesList, node.Children.get(i));
+        }
     }
 }
 
