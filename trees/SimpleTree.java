@@ -27,7 +27,6 @@ public class SimpleTree<T> {
 
         if (deletedIndex >= 0) {
             NodeToDelete.Parent.Children.remove(deletedIndex);
-            NodeToDelete.Children = null;
         }
     }
 
@@ -49,8 +48,8 @@ public class SimpleTree<T> {
     }
 
     public void MoveNode(SimpleTreeNode<T> OriginalNode, SimpleTreeNode<T> NewParent) {
-        // ваш код перемещения узла вместе с его поддеревом --
-        // в качестве дочернего для узла NewParent
+        DeleteNode(OriginalNode);
+        AddChild(NewParent, OriginalNode);
     }
 
     public int Count() {
