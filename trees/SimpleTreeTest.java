@@ -151,6 +151,23 @@ class SimpleTreeTest {
 
     @Test
     void count() {
+        Assertions.assertEquals(1, tree.Count(), "Failed one root count");
+
+        for (int i = 0; i < 10; i++) {
+            SimpleTreeNode<Integer> simpleNode = new SimpleTreeNode<>(i, null);
+            tree.AddChild(tree.Root, simpleNode);
+
+//            SimpleTreeNode<Integer> simpleChildNode1 = new SimpleTreeNode<>(100 + i, null);
+//            tree.AddChild(simpleNode, simpleChildNode1);
+//
+//            SimpleTreeNode<Integer> simpleChildNode2 = new SimpleTreeNode<>(1000 + i, null);
+//            tree.AddChild(simpleChildNode1, simpleChildNode2);
+//
+//            SimpleTreeNode<Integer> simpleChildNode3 = new SimpleTreeNode<>(10000 + i, null);
+//            tree.AddChild(simpleChildNode1, simpleChildNode3);
+        }
+
+        Assertions.assertEquals(41, tree.Count(), "Field count for many");
     }
 
     @Test

@@ -53,13 +53,40 @@ public class SimpleTree<T> {
     }
 
     public int Count() {
-        // количество всех узлов в дереве
-        return 0;
+        return _getNodesCount(Root, 0);
     }
 
     public int LeafCount() {
-        // количество листьев в дереве
-        return 0;
+        return _getLeafCount(Root, 0);
+    }
+
+    private int _getLeafCount(SimpleTreeNode<T> node, int count) {
+        if (node.Children == null) {
+            count++;
+            return count;
+        }
+
+        for (int i = 0; i < node.Children.size(); i++) {
+            count += _getNodesCount(node.Children.get(i), count);
+        }
+
+        return count;
+    }
+
+    private int _getNodesCount(SimpleTreeNode<T> node, int count) {
+        count++;
+
+        if (node.Children == null) {
+            return count;
+        }
+
+        count += node.Children.size();
+
+        for (int i = 0; i < node.Children.size(); i++) {
+            count += _getNodesCount(node.Children.get(i), count);
+        }
+
+        return count;
     }
 
     private void _findNodesByValue(T val, SimpleTreeNode<T> node, List<SimpleTreeNode<T>> nodesList) {
