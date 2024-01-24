@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleTreeTest {
@@ -133,9 +136,13 @@ class SimpleTreeTest {
                 }
             }
         }
-
-        Assertions.assertEquals(7, tree.FindNodesByValue(7).get(0).NodeValue, "Failed searching in root value");
+        List<SimpleTreeNode<Integer>> searchingNodes = tree.FindNodesByValue(7);
+        Assertions.assertEquals(7, searchingNodes.get(0).NodeValue, "Failed searching in root value");
         Assertions.assertEquals(421, tree.FindNodesByValue(7).size(), "Failed searching in root value");
+
+        for (int i = 0; i < searchingNodes.size(); i++) {
+            Assertions.assertEquals(7, searchingNodes.get(i).NodeValue, "Failed 7 not equals");
+        }
     }
 
     @Test
