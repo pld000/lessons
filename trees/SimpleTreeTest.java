@@ -243,4 +243,30 @@ class SimpleTreeTest {
         tree.DeleteNode(tree.Root.Children.get(15).Children.get(15));
         Assertions.assertEquals(7979, tree.LeafCount(), "Failed LeafCountForMuchMany after parent leaf delete");
     }
+
+    @Test
+    void leafCountOthers() {
+        int length = 5;
+        SimpleTreeNode<Integer> secondRoot = new SimpleTreeNode<>(999, tree.Root);
+        tree.AddChild(tree.Root, secondRoot);
+        for (int i = 0; i < length; i++) {
+            SimpleTreeNode<Integer> simpleNode = new SimpleTreeNode<>(i, null);
+            tree.AddChild(secondRoot, simpleNode);
+
+            for (int j = 0; j < length; j++) {
+                SimpleTreeNode<Integer> simpleChildNode1 = new SimpleTreeNode<>(j, null);
+                tree.AddChild(simpleNode, simpleChildNode1);
+
+                for (int k = 0; k < length; k++) {
+                    SimpleTreeNode<Integer> simpleChildNode2 = new SimpleTreeNode<>(k, null);
+                    tree.AddChild(simpleChildNode1, simpleChildNode2);
+                }
+            }
+        }
+
+        Assertions.assertEquals(125, tree.LeafCount(), "Failed leaf count");
+        tree.DeleteNode(secondRoot);
+        Assertions.assertEquals(1, tree.LeafCount(), "Failed leaf count");
+
+    }
 }
