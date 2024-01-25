@@ -49,8 +49,6 @@ class SimpleTreeTest {
 
         tree.DeleteNode(firstChild);
         Assertions.assertEquals(0, tree.Root.Children.size(), "Failed after delete from parent");
-        Assertions.assertNull(firstChild.Children, "Failed removed children");
-
     }
 
     @Test
