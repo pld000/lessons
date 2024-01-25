@@ -2,6 +2,18 @@ package trees;
 
 import java.util.*;
 
+class SimpleTreeNode<T> {
+    public T NodeValue;
+    public SimpleTreeNode<T> Parent;
+    public List<SimpleTreeNode<T>> Children;
+
+    public SimpleTreeNode(T val, SimpleTreeNode<T> parent) {
+        NodeValue = val;
+        Parent = parent;
+        Children = null;
+    }
+}
+
 public class SimpleTree<T> {
     public SimpleTreeNode<T> Root;
 
@@ -48,6 +60,10 @@ public class SimpleTree<T> {
     }
 
     public void MoveNode(SimpleTreeNode<T> OriginalNode, SimpleTreeNode<T> NewParent) {
+        if (OriginalNode.Parent == null) {
+            return;
+        }
+
         DeleteNode(OriginalNode);
         AddChild(NewParent, OriginalNode);
     }
@@ -113,17 +129,5 @@ public class SimpleTree<T> {
         for (int i = 0; i < node.Children.size(); i++) {
             _addChildrenToList(nodesList, node.Children.get(i));
         }
-    }
-}
-
-class SimpleTreeNode<T> {
-    public T NodeValue;
-    public SimpleTreeNode<T> Parent;
-    public List<SimpleTreeNode<T>> Children;
-
-    public SimpleTreeNode(T val, SimpleTreeNode<T> parent) {
-        NodeValue = val;
-        Parent = parent;
-        Children = null;
     }
 }

@@ -147,6 +147,32 @@ class SimpleTreeTest {
 
     @Test
     void moveNode() {
+        int length = 5;
+        for (int i = 0; i < length; i++) {
+            SimpleTreeNode<Integer> secondLevelNode = new SimpleTreeNode<>(21 + i, null);
+            tree.AddChild(tree.Root, secondLevelNode);
+
+            for (int j = 0; j < length; j++) {
+                SimpleTreeNode<Integer> thirdLevelNode = new SimpleTreeNode<>(31 + j, null);
+                tree.AddChild(secondLevelNode, thirdLevelNode);
+
+                for (int k = 0; k < length; k++) {
+                    SimpleTreeNode<Integer> fourthLevelNode = new SimpleTreeNode<>(41 + k, null);
+                    tree.AddChild(thirdLevelNode, fourthLevelNode);
+                }
+            }
+        }
+
+        SimpleTreeNode<Integer> secondLevelParent = tree.Root.Children.get(2);
+        SimpleTreeNode<Integer> fourthLevelToSecond = tree.Root.Children.get(4).Children.get(0).Children.get(0);
+        SimpleTreeNode<Integer> oldParent = tree.Root.Children.get(4).Children.get(0);
+
+        tree.MoveNode(fourthLevelToSecond, secondLevelParent);
+        Assertions.assertEquals(6, fourthLevelToSecond.Parent.Children.size(), "Failed parent new children size");
+        Assertions.assertEquals(6, secondLevelParent.Children.size(), "Failed parent new children size");
+        Assertions.assertEquals(4, oldParent.Children.size(), "Failed parent new children size");
+        Assertions.assertEquals(fourthLevelToSecond.NodeValue, secondLevelParent.Children.get(5).NodeValue);
+
     }
 
     @Test
@@ -193,6 +219,8 @@ class SimpleTreeTest {
 
     @Test
     void leafCount() {
+        Assertions.assertEquals(1, tree.LeafCount(), "Failed empty tree");
+
         int length = 20;
         for (int i = 0; i < length; i++) {
             SimpleTreeNode<Integer> simpleNode = new SimpleTreeNode<>(i, null);
@@ -210,5 +238,11 @@ class SimpleTreeTest {
         }
 
         Assertions.assertEquals(8000, tree.LeafCount(), "Failed LeafCountForMuchMany");
+
+        tree.DeleteNode(tree.Root.Children.get(19).Children.get(19).Children.get(19));
+        Assertions.assertEquals(7999, tree.LeafCount(), "Failed LeafCountForMuchMany after one leaf delete");
+
+        tree.DeleteNode(tree.Root.Children.get(15).Children.get(15));
+        Assertions.assertEquals(7979, tree.LeafCount(), "Failed LeafCountForMuchMany after parent leaf delete");
     }
 }
