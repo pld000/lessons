@@ -6,11 +6,13 @@ class SimpleTreeNode<T> {
     public T NodeValue;
     public SimpleTreeNode<T> Parent;
     public List<SimpleTreeNode<T>> Children;
+    public Integer Level;
 
     public SimpleTreeNode(T val, SimpleTreeNode<T> parent) {
         NodeValue = val;
         Parent = parent;
         Children = null;
+        Level = null;
     }
 }
 
