@@ -12,10 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleTreeTest {
     public SimpleTree<Integer> tree;
+    public SimpleTree<Integer> nullTree;
 
     @BeforeEach
     void setUp() {
         tree = new SimpleTree<>(new SimpleTreeNode<>(99, null));
+        nullTree = new SimpleTree<>(null);
     }
 
     @AfterEach
@@ -48,7 +50,7 @@ class SimpleTreeTest {
         Assertions.assertEquals(1, tree.Root.Children.size(), "Failed add child");
 
         tree.DeleteNode(firstChild);
-        Assertions.assertEquals(0, tree.Root.Children.size(), "Failed after delete from parent");
+        Assertions.assertNull(tree.Root.Children, "Failed after delete last child from parent");
     }
 
     @Test
@@ -268,5 +270,16 @@ class SimpleTreeTest {
         tree.DeleteNode(secondRoot);
         Assertions.assertEquals(1, tree.LeafCount(), "Failed leaf count");
 
+    }
+    @Test
+    void leafCountOneLeaf() {
+        Assertions.assertEquals(1, tree.LeafCount(), "Failed leaf count");
+        SimpleTreeNode<Integer> secondRoot = new SimpleTreeNode<>(777, tree.Root);
+        tree.AddChild(tree.Root, secondRoot);
+        Assertions.assertEquals(1, tree.LeafCount(), "Failed leaf count after adding child");
+
+        tree.DeleteNode(secondRoot);
+
+        Assertions.assertEquals(1, tree.LeafCount(), "Failed leaf count after delete");
     }
 }

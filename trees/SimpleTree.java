@@ -24,6 +24,10 @@ public class SimpleTree<T> {
     }
 
     public void AddChild(SimpleTreeNode<T> ParentNode, SimpleTreeNode<T> NewChild) {
+        if (Root == null) {
+            return;
+        }
+
         NewChild.Parent = ParentNode == null ? Root : ParentNode;
 
         if (NewChild.Parent.Children == null) {
@@ -41,6 +45,10 @@ public class SimpleTree<T> {
 
         if (deletedIndex >= 0) {
             NodeToDelete.Parent.Children.remove(deletedIndex);
+
+            if (NodeToDelete.Parent.Children.isEmpty()) {
+                NodeToDelete.Parent.Children = null;
+            }
         }
     }
 
@@ -75,16 +83,16 @@ public class SimpleTree<T> {
     }
 
     public int LeafCount() {
-        return _getLeafCount(Root, 0);
+        return _getLeafsCount(Root, 0);
     }
 
-    private int _getLeafCount(SimpleTreeNode<T> node, int count) {
+    private int _getLeafsCount(SimpleTreeNode<T> node, int count) {
         if (node.Children == null) {
-            return ++count;
+            return count + 1;
         }
 
         for (int i = 0; i < node.Children.size(); i++) {
-            count = _getLeafCount(node.Children.get(i), count);
+            count = _getLeafsCount(node.Children.get(i), count);
         }
 
         return count;
