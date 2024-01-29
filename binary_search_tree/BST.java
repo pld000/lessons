@@ -108,39 +108,52 @@ class BST<T> {
     }
 
     public boolean DeleteNodeByKey(int key) {
-        BSTFind<T> findNode = FindNodeByKey(key);
+        BSTFind<T> deletingNode = FindNodeByKey(key);
 
-        if (findNode.Node == null || !findNode.NodeHasKey) {
+        if (deletingNode.Node == null || !deletingNode.NodeHasKey) {
             return false;
         }
 
-        boolean isLeaf = findNode.Node.LeftChild == null && findNode.Node.RightChild == null;
+        boolean isLeaf = deletingNode.Node.LeftChild == null && deletingNode.Node.RightChild == null;
+        boolean isRoot = deletingNode.Node.NodeKey == Root.NodeKey;
         if (isLeaf) {
-            if (findNode.Node.NodeKey == Root.NodeKey) {
+            if (isRoot) {
                 Root = null;
-            } else if (findNode.Node.NodeKey > findNode.Node.Parent.NodeKey) {
-                findNode.Node.Parent.RightChild = null;
+            } else if (deletingNode.Node.NodeKey < deletingNode.Node.Parent.NodeKey) {
+                deletingNode.Node.Parent.LeftChild = null;
             } else {
-                findNode.Node.Parent.LeftChild = null;
+                deletingNode.Node.Parent.RightChild = null;
             }
 
             return true;
         }
 
-        BSTNode<T> minChild = FinMinMax(findNode.Node.RightChild, false);
+        BSTNode<T> childForReplace = FinMinMax(deletingNode.Node.RightChild, false);
+        boolean isLeftChild = deletingNode.Node.NodeKey < deletingNode.Node.Parent.NodeKey;
 
-        if (minChild == null) {
-            findNode.Node.Parent.LeftChild = null;
-            findNode.Node.Parent = findNode.Node.Parent.Parent;
-        } else if (minChild.RightChild == null) {
-            minChild.Parent = findNode.Node.Parent;
-            minChild.RightChild = findNode.Node.RightChild;
-            minChild.LeftChild = findNode.Node.LeftChild;
+        if (childForReplace == null) {
+            deletingNode.Node.LeftChild.Parent = deletingNode.Node.Parent;
+            if (isLeftChild) {
+                deletingNode.Node.Parent.LeftChild = deletingNode.Node.LeftChild;
+            } else {
+                deletingNode.Node.Parent.RightChild = deletingNode.Node.LeftChild;
+            }
+        } else if (childForReplace.RightChild != null) {
+            if (deletingNode.Node.NodeKey == childForReplace.Parent.NodeKey) {
+                childForReplace.Parent = deletingNode.Node.Parent;
+            }
+
+            childForReplace.RightChild.Parent = childForReplace.Parent;
+            childForReplace.Parent.LeftChild = childForReplace.RightChild;
+            childForReplace.Parent = deletingNode.Node.Parent;
+
+            childForReplace.Parent = deletingNode.Node.Parent;
+            childForReplace.RightChild = deletingNode.Node.RightChild;
+            childForReplace.LeftChild = deletingNode.Node.LeftChild;
         } else {
-            minChild.RightChild.Parent = minChild.Parent;
-            minChild.Parent = findNode.Node.Parent;
-            minChild.RightChild = findNode.Node.RightChild;
-            minChild.LeftChild = findNode.Node.LeftChild;
+            childForReplace.Parent = deletingNode.Node.Parent;
+            childForReplace.RightChild = deletingNode.Node.RightChild;
+            childForReplace.LeftChild = deletingNode.Node.LeftChild;
         }
 
         return true;
