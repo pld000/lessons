@@ -5,11 +5,11 @@ import java.util.*;
 
 
 class BSTNode<T> {
-    public int NodeKey; // ключ узла
-    public T NodeValue; // значение в узле
-    public BSTNode<T> Parent; // родитель или null для корня
-    public BSTNode<T> LeftChild; // левый потомок
-    public BSTNode<T> RightChild; // правый потомок
+    public int NodeKey;
+    public T NodeValue;
+    public BSTNode<T> Parent;
+    public BSTNode<T> LeftChild;
+    public BSTNode<T> RightChild;
 
     public BSTNode(int key, T val, BSTNode<T> parent) {
         NodeKey = key;
@@ -20,15 +20,11 @@ class BSTNode<T> {
     }
 }
 
-// промежуточный результат поиска
 class BSTFind<T> {
-    // null если в дереве вообще нету узлов
     public BSTNode<T> Node;
 
-    // true если узел найден
     public boolean NodeHasKey;
 
-    // true, если родительскому узлу надо добавить новый левым
     public boolean ToLeft;
 
     public BSTFind() {
@@ -37,7 +33,7 @@ class BSTFind<T> {
 }
 
 class BST<T> {
-    BSTNode<T> Root; // корень дерева, или null
+    BSTNode<T> Root;
 
     public BST(BSTNode<T> node) {
         Root = node;
@@ -76,22 +72,82 @@ class BST<T> {
     }
 
     public boolean AddKeyValue(int key, T val) {
-        // добавляем ключ-значение в дерево
-        return false; // если ключ уже есть
+        BSTFind<T> findNode = FindNodeByKey(key);
+
+        if (findNode.Node == null) {
+            Root = new BSTNode<>(key, val, null);
+            return true;
+        }
+
+        if (findNode.NodeHasKey) {
+            return false;
+        }
+
+        if (findNode.ToLeft) {
+            findNode.Node.LeftChild = new BSTNode<>(key, val, findNode.Node);
+        } else {
+            findNode.Node.RightChild = new BSTNode<>(key, val, findNode.Node);
+        }
+
+        return true;
     }
 
     public BSTNode<T> FinMinMax(BSTNode<T> FromNode, boolean FindMax) {
-        // ищем максимальный/минимальный ключ в поддереве
-        return null;
+        if (FromNode == null) {
+            return null;
+        }
+        return _FinMinMax(FromNode, FindMax);
+    }
+
+    private BSTNode<T> _FinMinMax(BSTNode<T> FromNode, boolean FindMax) {
+        if (FindMax && FromNode.RightChild == null || !FindMax && FromNode.LeftChild == null) {
+            return FromNode;
+        }
+
+        return FindMax ? _FinMinMax(FromNode.RightChild, true) : _FinMinMax(FromNode.LeftChild, false);
     }
 
     public boolean DeleteNodeByKey(int key) {
-        // удаляем узел по ключу
-        return false; // если узел не найден
+        BSTFind<T> findNode = FindNodeByKey(key);
+
+        if (findNode.Node == null || !findNode.NodeHasKey) {
+            return false;
+        }
+
+        boolean isLeaf = findNode.Node.LeftChild == null && findNode.Node.RightChild == null;
+        if (isLeaf) {
+            if (findNode.Node.NodeKey == Root.NodeKey) {
+                Root = null;
+            } else if (findNode.Node.NodeKey > findNode.Node.Parent.NodeKey) {
+                findNode.Node.Parent.RightChild = null;
+            } else {
+                findNode.Node.Parent.LeftChild = null;
+            }
+
+            return true;
+        }
+
+        BSTNode<T> minChild = FinMinMax(findNode.Node.RightChild, false);
+
+        if (minChild == null) {
+            findNode.Node.Parent.LeftChild = null;
+            findNode.Node.Parent = findNode.Node.Parent.Parent;
+        } else if (minChild.RightChild == null) {
+            minChild.Parent = findNode.Node.Parent;
+            minChild.RightChild = findNode.Node.RightChild;
+            minChild.LeftChild = findNode.Node.LeftChild;
+        } else {
+            minChild.RightChild.Parent = minChild.Parent;
+            minChild.Parent = findNode.Node.Parent;
+            minChild.RightChild = findNode.Node.RightChild;
+            minChild.LeftChild = findNode.Node.LeftChild;
+        }
+
+        return true;
     }
 
     public int Count() {
-        return 0; // количество узлов в дереве
+        return 0;
     }
 
 }
