@@ -149,6 +149,21 @@ class BSTTest {
 
     @Test
     void count() {
+        Assertions.assertEquals(0, bstNull.Count(), "Failed count empty tree");
+        Assertions.assertEquals(1, bst.Count(), "Failed count bst one element");
+
+        makeTreeFilling();
+
+        Assertions.assertEquals(15, bst.Count(), "Failed count bst after filling");
+        bst.DeleteNodeByKey(node1.NodeKey);
+        Assertions.assertEquals(14, bst.Count(), "Failed count bst after delete node1");
+        bst.DeleteNodeByKey(node7.NodeKey);
+        Assertions.assertEquals(13, bst.Count(), "Failed count bst after delete node7");
+        bst.DeleteNodeByKey(bst.Root.NodeKey);
+        Assertions.assertEquals(12, bst.Count(), "Failed count bst after delete root");
+        bst.DeleteNodeByKey(node10.NodeKey);
+        Assertions.assertEquals(11, bst.Count(), "Failed count bst after delete node10");
+
     }
 
     public void makeTreeFilling() {

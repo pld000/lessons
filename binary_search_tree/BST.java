@@ -3,7 +3,6 @@ package binary_search_tree;
 import java.io.*;
 import java.util.*;
 
-
 class BSTNode<T> {
     public int NodeKey;
     public T NodeValue;
@@ -161,7 +160,33 @@ class BST<T> {
     }
 
     public int Count() {
-        return 0;
+        if (Root == null) {
+            return 0;
+        }
+
+        return _getNodesCount(Root, 0);
+    }
+
+    private int _getNodesCount(BSTNode<T> node, int count) {
+        if (node.Parent == null) {
+            count++;
+        }
+
+        if (node.LeftChild == null && node.RightChild == null) {
+            return count;
+        }
+
+        if (node.LeftChild != null) {
+            count++;
+            count = _getNodesCount(node.LeftChild, count);
+        }
+
+        if (node.RightChild != null) {
+            count++;
+            count = _getNodesCount(node.RightChild, count);
+        }
+
+        return count;
     }
 
 }
