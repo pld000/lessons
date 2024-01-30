@@ -101,18 +101,50 @@ class BSTTest {
 
         makeTreeFilling();
 
-        System.out.println(bst.FinMinMax(node14, false).NodeKey);
-        System.out.println(bst.FinMinMax(node14, true).NodeKey);
+        Assertions.assertEquals(10, bst.FinMinMax(bst.Root, false).NodeKey, "Failed root finMinMax min");
+        Assertions.assertEquals(150, bst.FinMinMax(bst.Root, true).NodeKey, "Failed root finMinMax max");
 
-//        Assertions.assertEquals(10, bst.FinMinMax(bst.Root, false).NodeKey, "Failed root finMinMax min");
-//        Assertions.assertEquals(150, bst.FinMinMax(bst.Root, true).NodeKey, "Failed root finMinMax max");
-//
-//        Assertions.assertEquals(90, bst.FinMinMax(node12, false).NodeKey, "Failed for node finMinMax min");
-//        Assertions.assertEquals(150, bst.FinMinMax(node12, true).NodeKey, "Failed for node finMinMax max");
+        Assertions.assertEquals(90, bst.FinMinMax(node12, false).NodeKey, "Failed for node finMinMax min");
+        Assertions.assertEquals(150, bst.FinMinMax(node12, true).NodeKey, "Failed for node finMinMax max");
     }
 
     @Test
     void deleteNodeByKey() {
+        Assertions.assertFalse(bstNull.DeleteNodeByKey(23), "Failed empty delete");
+        bstNull.AddKeyValue(50, 500);
+        Assertions.assertTrue(bstNull.DeleteNodeByKey(50), "Failed empty delete after adding");
+        Assertions.assertNull(bstNull.Root, "Failed empty root after delete");
+
+        bstNull.AddKeyValue(50, 500);
+        bstNull.AddKeyValue(30, 500);
+        bstNull.AddKeyValue(70, 500);
+        Assertions.assertTrue(bstNull.DeleteNodeByKey(50), "Failed empty delete after adding");
+        Assertions.assertEquals(70, bstNull.Root.NodeKey, "Failed empty delete root after three elements adding");
+        Assertions.assertFalse(bstNull.FindNodeByKey(50).NodeHasKey, "Failed search after delete");
+
+        makeTreeFilling();
+
+        Assertions.assertFalse(bst.DeleteNodeByKey(9999), "Failed delete absent key");
+        Assertions.assertTrue(bst.DeleteNodeByKey(node6.NodeKey), "Failed delete node6");
+        Assertions.assertFalse(bst.FindNodeByKey(node6.NodeKey).NodeHasKey, "Failed search node6 after delete");
+        Assertions.assertEquals(node5.NodeKey, bst.FindNodeByKey(node7.NodeKey).Node.LeftChild.NodeKey, "Failed node7 LeftChild replace after delete");
+        Assertions.assertEquals(node4.RightChild.NodeKey, bst.FindNodeByKey(node7.NodeKey).Node.NodeKey, "Failed node7 parent replace after delete");
+        Assertions.assertTrue(bst.DeleteNodeByKey(node15.NodeKey), "Failed delete node15");
+        Assertions.assertFalse(bst.FindNodeByKey(node15.NodeKey).NodeHasKey, "Failed search node15 after delete");
+        Assertions.assertNull(bst.FindNodeByKey(node14.NodeKey).Node.RightChild, "Failed node 14 right child");
+
+        Assertions.assertTrue(bst.DeleteNodeByKey(node14.NodeKey), "Failed delete node14");
+        Assertions.assertFalse(bst.FindNodeByKey(node14.NodeKey).NodeHasKey, "Failed search node14 after delete");
+        Assertions.assertEquals(node12.NodeKey, bst.FindNodeByKey(node13.NodeKey).Node.Parent.NodeKey, "Failed parent for node 13");
+        Assertions.assertEquals(node12.RightChild.NodeKey, bst.FindNodeByKey(node13.NodeKey).Node.NodeKey, "Failed right child for node 12");
+
+        Assertions.assertTrue(bst.DeleteNodeByKey(bst.Root.NodeKey), "Failed root delete");
+
+        Assertions.assertEquals(node9.NodeKey, bst.Root.NodeKey);
+        Assertions.assertNull(bst.FindNodeByKey(node10.NodeKey).Node.LeftChild, "Failed node10 left child");
+        Assertions.assertEquals(node4.NodeKey, bst.Root.LeftChild.NodeKey, "Failed root left child");
+        Assertions.assertEquals(node12.NodeKey, bst.Root.RightChild.NodeKey, "Failed root right child");
+
     }
 
     @Test
@@ -161,10 +193,10 @@ class BSTTest {
         node9.Parent = node10;
         node11.Parent = node10;
 
-       // node14.LeftChild = node13;
+        node14.LeftChild = node13;
         node14.RightChild = node15;
 
-       // node13.Parent = node14;
+        node13.Parent = node14;
         node15.Parent = node14;
     }
 }

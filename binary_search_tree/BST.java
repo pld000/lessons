@@ -128,32 +128,33 @@ class BST<T> {
             return true;
         }
 
-        BSTNode<T> childForReplace = FinMinMax(deletingNode.Node.RightChild, false);
-        boolean isLeftChild = deletingNode.Node.NodeKey < deletingNode.Node.Parent.NodeKey;
+        BSTNode<T> childForReplace = deletingNode.Node.RightChild == null ? deletingNode.Node.LeftChild : FinMinMax(deletingNode.Node.RightChild, false);
 
-        if (childForReplace == null) {
-            deletingNode.Node.LeftChild.Parent = deletingNode.Node.Parent;
-            if (isLeftChild) {
-                deletingNode.Node.Parent.LeftChild = deletingNode.Node.LeftChild;
-            } else {
-                deletingNode.Node.Parent.RightChild = deletingNode.Node.LeftChild;
-            }
-        } else if (childForReplace.RightChild != null) {
-            if (deletingNode.Node.NodeKey == childForReplace.Parent.NodeKey) {
-                childForReplace.Parent = deletingNode.Node.Parent;
-            }
-
-            childForReplace.RightChild.Parent = childForReplace.Parent;
-            childForReplace.Parent.LeftChild = childForReplace.RightChild;
+        if (deletingNode.Node.RightChild == null) {
             childForReplace.Parent = deletingNode.Node.Parent;
-
+        } else if (childForReplace.RightChild == null) {
+            if (childForReplace.NodeKey != deletingNode.Node.RightChild.NodeKey) {
+                childForReplace.Parent.LeftChild = null;
+                childForReplace.RightChild = deletingNode.Node.RightChild;
+            }
             childForReplace.Parent = deletingNode.Node.Parent;
-            childForReplace.RightChild = deletingNode.Node.RightChild;
             childForReplace.LeftChild = deletingNode.Node.LeftChild;
         } else {
+            if (childForReplace.NodeKey != deletingNode.Node.RightChild.NodeKey) {
+                childForReplace.RightChild.Parent = childForReplace.Parent;
+                childForReplace.Parent.LeftChild = childForReplace.RightChild;
+                childForReplace.RightChild = deletingNode.Node.RightChild;
+            }
             childForReplace.Parent = deletingNode.Node.Parent;
-            childForReplace.RightChild = deletingNode.Node.RightChild;
             childForReplace.LeftChild = deletingNode.Node.LeftChild;
+        }
+
+        if (isRoot) {
+            Root = childForReplace;
+        } else if (deletingNode.Node.NodeKey < deletingNode.Node.Parent.NodeKey) {
+            deletingNode.Node.Parent.LeftChild = childForReplace;
+        } else {
+            deletingNode.Node.Parent.RightChild = childForReplace;
         }
 
         return true;
