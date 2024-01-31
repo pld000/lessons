@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BSTTest {
@@ -163,6 +165,27 @@ class BSTTest {
         Assertions.assertEquals(12, bst.Count(), "Failed count bst after delete root");
         bst.DeleteNodeByKey(node10.NodeKey);
         Assertions.assertEquals(11, bst.Count(), "Failed count bst after delete node10");
+
+    }
+
+    @Test
+    void WideAllNodes() {
+        makeTreeFilling();
+
+        ArrayList<BSTNode> nodes = bst.WideAllNodes();
+
+        for(int i=0; i< nodes.size(); i++) {
+            System.out.print(nodes.get(i).NodeKey + " ");
+        }
+
+        ArrayList<BSTNode> n1 = new ArrayList<>();
+        n1.add(bst.Root);
+        ArrayList<BSTNode> invertingTree = bst.InvertTree(n1);
+System.out.println("-----------");
+        for(int i=0; i< invertingTree.size(); i++) {
+            System.out.print(invertingTree.get(i).NodeKey + " ");
+        }
+
 
     }
 
