@@ -172,21 +172,46 @@ class BSTTest {
     void WideAllNodes() {
         makeTreeFilling();
 
+        System.out.println();
+        System.out.println("--------------------------- Wide All Nodes ---------------------------");
+
         ArrayList<BSTNode> nodes = bst.WideAllNodes();
 
-        for(int i=0; i< nodes.size(); i++) {
+        for (int i = 0; i < nodes.size(); i++) {
             System.out.print(nodes.get(i).NodeKey + " ");
         }
 
-        ArrayList<BSTNode> n1 = new ArrayList<>();
-        n1.add(bst.Root);
-        ArrayList<BSTNode> invertingTree = bst.InvertTree(n1);
-System.out.println("-----------");
-        for(int i=0; i< invertingTree.size(); i++) {
+        System.out.println();
+        System.out.println("--------------------------- Inverting Tree ---------------------------");
+
+        ArrayList<BSTNode> invertingTree = bst.InvertTree();
+        for (int i = 0; i < invertingTree.size(); i++) {
             System.out.print(invertingTree.get(i).NodeKey + " ");
         }
 
+        System.out.println();
+        System.out.println("--------------------------- In Order Tree ---------------------------");
 
+        ArrayList<BSTNode> inOrderTree = bst.DeepAllNodes(0);
+        for (int i = 0; i < inOrderTree.size(); i++) {
+            System.out.print(inOrderTree.get(i).NodeKey + " ");
+        }
+
+        System.out.println();
+        System.out.println("--------------------------- Post Order Tree ---------------------------");
+
+        ArrayList<BSTNode> postOrderTree = bst.DeepAllNodes(1);
+        for (int i = 0; i < postOrderTree.size(); i++) {
+            System.out.print(postOrderTree.get(i).NodeKey + " ");
+        }
+
+        System.out.println();
+        System.out.println("--------------------------- Pre Order Tree ---------------------------");
+
+        ArrayList<BSTNode> preOrderTree = bst.DeepAllNodes(2);
+        for (int i = 0; i < preOrderTree.size(); i++) {
+            System.out.print(preOrderTree.get(i).NodeKey + " ");
+        }
     }
 
     public void makeTreeFilling() {

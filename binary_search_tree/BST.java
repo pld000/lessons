@@ -38,13 +38,66 @@ class BST<T> {
         Root = node;
     }
 
-    public ArrayList<BSTNode> WideAllNodes() {
+    public ArrayList<BSTNode> DeepAllNodes(int order) {
+        if (Root == null) {
+            return null;
+        }
+
         ArrayList<BSTNode> nodes = new ArrayList<>();
 
-        if (Root == null) {
+        if (order == 0) {
+            return _DeepInOrder(Root, nodes);
+        } else if (order == 1) {
+            return _DeepPostOrder(Root, nodes);
+        } else if (order == 2) {
+            return _DeepPreOrder(Root, nodes);
+        }
+
+        return null;
+    }
+
+    private ArrayList<BSTNode> _DeepInOrder(BSTNode node, ArrayList<BSTNode> nodes) {
+        if (node == null) {
             return nodes;
         }
 
+        nodes = _DeepInOrder(node.LeftChild, nodes);
+        nodes.add(node);
+        nodes = _DeepInOrder(node.RightChild, nodes);
+
+        return nodes;
+    }
+
+    private ArrayList<BSTNode> _DeepPostOrder(BSTNode node, ArrayList<BSTNode> nodes) {
+        if (node == null) {
+            return nodes;
+        }
+
+        nodes = _DeepInOrder(node.LeftChild, nodes);
+        nodes = _DeepInOrder(node.RightChild, nodes);
+        nodes.add(node);
+
+        return nodes;
+    }
+
+    private ArrayList<BSTNode> _DeepPreOrder(BSTNode node, ArrayList<BSTNode> nodes) {
+        if (node == null) {
+            return nodes;
+        }
+
+        nodes.add(node);
+        nodes = _DeepInOrder(node.LeftChild, nodes);
+        nodes = _DeepInOrder(node.RightChild, nodes);
+
+        return nodes;
+    }
+
+    public ArrayList<BSTNode> WideAllNodes() {
+        if (Root == null) {
+            return null;
+        }
+
+        ArrayList<BSTNode> nodes = new ArrayList<>();
         nodes.add(Root);
 
         return _WideAllNodes(nodes);
@@ -75,29 +128,8 @@ class BST<T> {
         return nodes;
     }
 
-    public ArrayList<BSTNode> InvertTree(ArrayList<BSTNode> nodes) {
-        boolean isLevelEmpty = true;
-        ArrayList<BSTNode> nextLevelNodes = new ArrayList<>();
-        for (int i = nodes.size() - 1; i >= 0; i--) {
-            BSTNode leftChild = nodes.get(i).LeftChild;
-            BSTNode rightChild = nodes.get(i).RightChild;
-
-            if (rightChild != null) {
-                nextLevelNodes.add(rightChild);
-            }
-
-            if (leftChild != null) {
-                nextLevelNodes.add(leftChild);
-            }
-
-            isLevelEmpty = isLevelEmpty && leftChild == null && rightChild == null;
-        }
-
-        if (isLevelEmpty) {
-            return nodes;
-        }
-
-        nodes.addAll(_WideAllNodes(nextLevelNodes));
+    private ArrayList<BSTNode> _addAll(ArrayList<BSTNode> nodes, ArrayList<BSTNode> othersNodes) {
+        nodes.addAll(othersNodes);
         return nodes;
     }
 
@@ -252,4 +284,40 @@ class BST<T> {
         return count;
     }
 
+    public ArrayList<BSTNode> InvertTree() {
+        if (Root == null) {
+            return null;
+        }
+
+        ArrayList<BSTNode> nodes = new ArrayList<>();
+        nodes.add(Root);
+
+        return _InvertTree(nodes);
+    }
+
+    private ArrayList<BSTNode> _InvertTree(ArrayList<BSTNode> nodes) {
+        boolean isLevelEmpty = true;
+        ArrayList<BSTNode> nextLevelNodes = new ArrayList<>();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            BSTNode rightChild = nodes.get(i).RightChild;
+            BSTNode leftChild = nodes.get(i).LeftChild;
+
+            if (rightChild != null) {
+                nextLevelNodes.add(rightChild);
+            }
+
+            if (leftChild != null) {
+                nextLevelNodes.add(leftChild);
+            }
+
+            isLevelEmpty = isLevelEmpty && leftChild == null && rightChild == null;
+        }
+
+        if (isLevelEmpty) {
+            return nodes;
+        }
+
+        return _addAll(nodes, _InvertTree(nextLevelNodes));
+    }
 }
