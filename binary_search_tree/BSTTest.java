@@ -188,6 +188,11 @@ class BSTTest {
         for (int i = 0; i < invertingTree.size(); i++) {
             System.out.print(invertingTree.get(i).NodeKey + " ");
         }
+    }
+
+    @Test
+    void DeepAllNodes() {
+        makeTreeFilling();
 
         System.out.println();
         System.out.println("--------------------------- In Order Tree ---------------------------");

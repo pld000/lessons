@@ -73,8 +73,8 @@ class BST<T> {
             return nodes;
         }
 
-        nodes = _DeepInOrder(node.LeftChild, nodes);
-        nodes = _DeepInOrder(node.RightChild, nodes);
+        nodes = _DeepPostOrder(node.LeftChild, nodes);
+        nodes = _DeepPostOrder(node.RightChild, nodes);
         nodes.add(node);
 
         return nodes;
@@ -86,8 +86,8 @@ class BST<T> {
         }
 
         nodes.add(node);
-        nodes = _DeepInOrder(node.LeftChild, nodes);
-        nodes = _DeepInOrder(node.RightChild, nodes);
+        nodes = _DeepPreOrder(node.LeftChild, nodes);
+        nodes = _DeepPreOrder(node.RightChild, nodes);
 
         return nodes;
     }
