@@ -128,11 +128,6 @@ class BST<T> {
         return nodes;
     }
 
-    private ArrayList<BSTNode> _addAll(ArrayList<BSTNode> nodes, ArrayList<BSTNode> othersNodes) {
-        nodes.addAll(othersNodes);
-        return nodes;
-    }
-
     public BSTFind<T> FindNodeByKey(int key) {
         if (Root == null) {
             return new BSTFind<>();
@@ -319,5 +314,10 @@ class BST<T> {
         }
 
         return _addAll(nodes, _InvertTree(nextLevelNodes));
+    }
+
+    private ArrayList<BSTNode> _addAll(ArrayList<BSTNode> nodes, ArrayList<BSTNode> othersNodes) {
+        nodes.addAll(othersNodes);
+        return nodes;
     }
 }
