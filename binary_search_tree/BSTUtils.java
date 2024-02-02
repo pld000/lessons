@@ -1,7 +1,5 @@
 package binary_search_tree;
 
-import org.junit.jupiter.api.BeforeEach;
-
 public class BSTUtils {
     public void InvertTree(BST<Integer> tree) {
         if (tree.Root == null) {
