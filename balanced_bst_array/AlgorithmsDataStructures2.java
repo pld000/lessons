@@ -19,7 +19,7 @@ public class AlgorithmsDataStructures2 {
     }
 
     private static void _GenerateBBSTArray(int[] bst, int[] nodeKeys, int nodeIndex) {
-        if (nodeKeys.length == 0) {
+        if (nodeKeys.length == 0 || nodeIndex >= bst.length) {
             return;
         }
 
@@ -30,9 +30,8 @@ public class AlgorithmsDataStructures2 {
             return;
         }
 
-        int toIndex = Math.min(rootIndex + 1, nodeKeys.length);
-        int[] leftNodes = Arrays.copyOfRange(nodeKeys, 0, rootIndex - 1);
-        int[] rightNodes = Arrays.copyOfRange(nodeKeys, rootIndex, toIndex);
+        int[] leftNodes = Arrays.copyOfRange(nodeKeys, 0, rootIndex);
+        int[] rightNodes = Arrays.copyOfRange(nodeKeys, Math.min(rootIndex + 1, nodeKeys.length), nodeKeys.length);
 
         _GenerateBBSTArray(bst, leftNodes, 2 * nodeIndex + 1);
         _GenerateBBSTArray(bst, rightNodes, 2 * nodeIndex + 2);
