@@ -3,22 +3,6 @@ package binary_search_tree;
 import java.io.*;
 import java.util.*;
 
-class BSTNode<T> {
-    public int NodeKey;
-    public T NodeValue;
-    public BSTNode<T> Parent;
-    public BSTNode<T> LeftChild;
-    public BSTNode<T> RightChild;
-
-    public BSTNode(int key, T val, BSTNode<T> parent) {
-        NodeKey = key;
-        NodeValue = val;
-        Parent = parent;
-        LeftChild = null;
-        RightChild = null;
-    }
-}
-
 class BSTFind<T> {
     public BSTNode<T> Node;
 
@@ -31,8 +15,8 @@ class BSTFind<T> {
     }
 }
 
-class BST<T> {
-    BSTNode<T> Root;
+public class BST<T> {
+    public BSTNode<T> Root;
 
     public BST(BSTNode<T> node) {
         Root = node;
