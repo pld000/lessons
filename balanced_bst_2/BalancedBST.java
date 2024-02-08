@@ -51,6 +51,14 @@ public class BalancedBST {
     }
 
     public boolean IsBalanced(BSTNode root_node) {
-        return false; // сбалансировано ли дерево с корнем root_node
+        return _IsBalanced(root_node, true);
+    }
+
+    private boolean _IsBalanced(BSTNode node, boolean balanceCheck) {
+        if (!balanceCheck) {
+            return false;
+        }
+
+
     }
 }
