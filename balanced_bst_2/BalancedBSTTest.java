@@ -18,8 +18,8 @@ class BalancedBSTTest {
     @Test
     void generateTree() {
 //        int[] test2 = {140, 20, 30, 150, 50, 60, 70, 90, 80, 100, 110, 120, 130, 500};
-        int[] test2 = {140, 20, 30, 150, 50, 60, 70, 90, 80, 100, 110, 120, 130, 500};
-//        int[] test2 = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150};
+      //  int[] test2 = {140, 20, 30, 150, 50, 60, 70, 90, 80, 100, 110, 120, 130, 500};
+        int[] test2 = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150};
         bst.GenerateTree(test2);
 
         printBst(bst);
@@ -35,7 +35,13 @@ class BalancedBSTTest {
 
         for (int i = 0; i < printArr.size(); i++) {
             for (int j = 0; j < printArr.get(i).size(); j++) {
-                System.out.print(printArr.get(i).get(j).NodeKey + " ");
+                BSTNode node = printArr.get(i).get(j);
+                if (node.Parent == null) {
+                    System.out.print(printArr.get(i).get(j).NodeKey + " ");
+                } else {
+                    String prefix = node.NodeKey < node.Parent.NodeKey ? "L: " : "R: ";
+                    System.out.print("(P " + node.Parent.NodeKey + " - " + prefix + node.NodeKey + ") ");
+                }
             }
             System.out.println();
             System.out.println("---------------------------");

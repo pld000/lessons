@@ -51,14 +51,16 @@ public class BalancedBST {
     }
 
     public boolean IsBalanced(BSTNode root_node) {
-        return _IsBalanced(root_node, true);
-    }
-
-    private boolean _IsBalanced(BSTNode node, boolean balanceCheck) {
-        if (!balanceCheck) {
-            return false;
+        if (root_node == null) {
+            return true;
         }
 
+        return _IsBalanced(root_node);
+    }
 
+    private boolean _IsBalanced(BSTNode node) {
+
+
+        return true;
     }
 }
