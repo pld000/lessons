@@ -59,8 +59,42 @@ public class BalancedBST {
     }
 
     private boolean _IsBalanced(BSTNode node) {
+        if (node == null) {
+            return true;
+        }
 
+        int leftHeight = _getTreeHeight(node.LeftChild);
+        int rightHeight = _getTreeHeight(node.RightChild);
 
-        return true;
+        leftHeight = Math.max(leftHeight, node.Level);
+        rightHeight = Math.max(rightHeight, node.Level);
+
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            return false;
+        }
+
+        return _IsBalanced(node.LeftChild) && _IsBalanced(node.RightChild);
+    }
+
+    public int _getTreeHeight(BSTNode node) {
+        if (node == null) {
+            return 0;
+        }
+
+        int height = node.Level;
+
+        if (node.LeftChild == null && node.RightChild == null) {
+            return height;
+        }
+
+        if(node.LeftChild != null) {
+            height = Math.max(height, _getTreeHeight(node.LeftChild));
+        }
+
+        if(node.RightChild != null) {
+            height = Math.max(height, _getTreeHeight(node.RightChild));
+        }
+
+        return height;
     }
 }

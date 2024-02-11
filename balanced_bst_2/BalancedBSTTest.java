@@ -1,5 +1,7 @@
 package balanced_bst_2;
 
+import binary_search_tree.BST;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +20,7 @@ class BalancedBSTTest {
     @Test
     void generateTree() {
 //        int[] test2 = {140, 20, 30, 150, 50, 60, 70, 90, 80, 100, 110, 120, 130, 500};
-      //  int[] test2 = {140, 20, 30, 150, 50, 60, 70, 90, 80, 100, 110, 120, 130, 500};
+        //  int[] test2 = {140, 20, 30, 150, 50, 60, 70, 90, 80, 100, 110, 120, 130, 500};
         int[] test2 = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150};
         bst.GenerateTree(test2);
 
@@ -27,6 +29,36 @@ class BalancedBSTTest {
 
     @Test
     void isBalanced() {
+        int[] test2 = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150};
+
+        bst.GenerateTree(test2);
+        BSTNode node = getNodeByKey(bst.Root, 150);
+
+        node.RightChild = new BSTNode(160, node);
+        node.RightChild.RightChild = new BSTNode(170, node.RightChild);
+
+        printBst(bst);
+
+        Assertions.assertTrue(bst.IsBalanced(bst.Root));
+
+
+    }
+
+    public BSTNode getNodeByKey(BSTNode node, int nodeKey) {
+        if (node == null) {
+            return null;
+        }
+
+        if (node.NodeKey == nodeKey) {
+            return node;
+        }
+
+        BSTNode searchingNode = getNodeByKey(node.LeftChild, nodeKey);
+        if (searchingNode == null || searchingNode.NodeKey != nodeKey && node.RightChild != null) {
+            searchingNode = getNodeByKey(node.RightChild, nodeKey);
+        }
+
+        return searchingNode;
     }
 
     public void printBst(BalancedBST bst) {
