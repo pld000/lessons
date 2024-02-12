@@ -32,15 +32,24 @@ class Heap {
         }
 
         HeapArray[_count] = key;
-        int indexOffset = _count % 2 == 0 ? 2 : 1;
-        int parentIndex = Math.max(_count - indexOffset, 0) / 2;
-
-        if (HeapArray[parentIndex] < HeapArray[_count]) {
-
-        }
-
+        _SiftUp(_count);
         _count++;
         return true;
+    }
+
+    private void _SiftUp(int index) {
+        int indexOffset = index % 2 == 0 ? 2 : 1;
+        int parentIndex = (index - indexOffset) / 2;
+
+        if (parentIndex < 0 || HeapArray[parentIndex] >= HeapArray[index]) {
+           return;
+        }
+
+        int transfer = HeapArray[parentIndex];
+        HeapArray[parentIndex] = HeapArray[index];
+        HeapArray[index] = transfer;
+
+        _SiftUp(parentIndex);
     }
 
 }
