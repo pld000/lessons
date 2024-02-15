@@ -23,6 +23,18 @@ public class SimpleTree<T> {
         Root = root;
     }
 
+    public ArrayList<T> EvenTrees() {
+        if (Count() % 2 > 0) {
+            return null;
+        }
+
+        ArrayList<T> edges = new ArrayList<>();
+
+
+
+        return edges;
+    }
+
     public void AddChild(SimpleTreeNode<T> ParentNode, SimpleTreeNode<T> NewChild) {
         if (Root == null) {
             return;
