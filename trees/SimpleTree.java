@@ -24,15 +24,32 @@ public class SimpleTree<T> {
     }
 
     public ArrayList<T> EvenTrees() {
-        if (Count() % 2 > 0) {
-            return null;
+        ArrayList<T> edges = new ArrayList<>();
+        int count = Count();
+
+        if (count > 0 && count % 2 == 0) {
+            _EvenTrees(Root, edges);
         }
 
-        ArrayList<T> edges = new ArrayList<>();
-
-
-
         return edges;
+    }
+
+    public void _EvenTrees(SimpleTreeNode<T> node, ArrayList<T> edges) {
+        if (node == null || node.Children == null) {
+            return;
+        }
+
+        for (int i = 0; i < node.Children.size(); i++) {
+            SimpleTreeNode<T> nodeChild = node.Children.get(i);
+            int count = _getNodesCount(nodeChild, 0);
+
+            if (count > 0 && count % 2 == 0) {
+                edges.add(node.NodeValue);
+                edges.add(nodeChild.NodeValue);
+            }
+
+            _EvenTrees(nodeChild, edges);
+        }
     }
 
     public void AddChild(SimpleTreeNode<T> ParentNode, SimpleTreeNode<T> NewChild) {
@@ -91,6 +108,10 @@ public class SimpleTree<T> {
     }
 
     public int Count() {
+        if (Root == null) {
+            return 0;
+        }
+
         return _getNodesCount(Root, 0);
     }
 
@@ -111,14 +132,11 @@ public class SimpleTree<T> {
     }
 
     private int _getNodesCount(SimpleTreeNode<T> node, int count) {
-        if (node.Parent == null) {
-            count++;
-        }
+        count++;
 
         if (node.Children == null) {
             return count;
         }
-        count += node.Children.size();
 
         for (int i = 0; i < node.Children.size(); i++) {
             count = _getNodesCount(node.Children.get(i), count);

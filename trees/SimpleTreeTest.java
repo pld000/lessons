@@ -25,6 +25,115 @@ class SimpleTreeTest {
     }
 
     @Test
+    void EvenTrees() {
+        Assertions.assertEquals(0, nullTree.EvenTrees().size(), "Failed null even tree");
+        Assertions.assertEquals(0, tree.EvenTrees().size(), "Failed root only even tree");
+
+        SimpleTreeNode<Integer> node1 = new SimpleTreeNode<>(11, null);
+        tree.AddChild(tree.Root, node1);
+        Assertions.assertEquals(0, tree.EvenTrees().size(), "Failed two elements even tree");
+
+        SimpleTreeNode<Integer> node2 = new SimpleTreeNode<>(25, null);
+        tree.AddChild(tree.Root, node2);
+        Assertions.assertEquals(0, tree.EvenTrees().size(), "Failed three elements even tree");
+
+        SimpleTreeNode<Integer> node3 = new SimpleTreeNode<>(35, null);
+        tree.AddChild(tree.Root, node3);
+        Assertions.assertEquals(0, tree.EvenTrees().size(), "Failed four elements even tree");
+    }
+
+    @Test
+    void EvenTrees2() {
+        SimpleTreeNode<Integer> node1 = new SimpleTreeNode<>(10, null);
+        tree.AddChild(tree.Root, node1);
+        SimpleTreeNode<Integer> node2 = new SimpleTreeNode<>(20, null);
+        tree.AddChild(node1, node2);
+        SimpleTreeNode<Integer> node3 = new SimpleTreeNode<>(30, null);
+        tree.AddChild(node2, node3);
+
+
+        ArrayList<Integer> forest = tree.EvenTrees();
+        Assertions.assertEquals(2, forest.size(), "Failed four elements even tree");
+
+        for (int i = 0; i < forest.size(); i++) {
+            System.out.print(forest.get(i) + ", ");
+
+            if (i % 2 > 0) {
+                System.out.println();
+            }
+        }
+    }
+
+    @Test
+    void EvenTrees3() {
+        SimpleTreeNode<Integer> node1 = new SimpleTreeNode<>(10, null);
+        tree.AddChild(tree.Root, node1);
+        SimpleTreeNode<Integer> node2 = new SimpleTreeNode<>(20, null);
+        tree.AddChild(node1, node2);
+        SimpleTreeNode<Integer> node3 = new SimpleTreeNode<>(30, null);
+        tree.AddChild(node2, node3);
+
+        SimpleTreeNode<Integer> node4 = new SimpleTreeNode<>(40, null);
+        tree.AddChild(node1, node4);
+        SimpleTreeNode<Integer> node5 = new SimpleTreeNode<>(50, null);
+        tree.AddChild(node4, node5);
+
+        SimpleTreeNode<Integer> node6 = new SimpleTreeNode<>(60, null);
+        tree.AddChild(node5, node6);
+        SimpleTreeNode<Integer> node7 = new SimpleTreeNode<>(70, null);
+        tree.AddChild(node6, node7);
+
+        ArrayList<Integer> forest = tree.EvenTrees();
+        Assertions.assertEquals(6, forest.size(), "Failed four elements even tree");
+
+        for (int i = 0; i < forest.size(); i++) {
+            System.out.print(forest.get(i) + ", ");
+
+            if (i % 2 > 0) {
+                System.out.println();
+            }
+        }
+    }
+    @Test
+    void EvenTrees4() {
+        SimpleTree<Integer> testTree = new SimpleTree<>(new SimpleTreeNode<>(1, null));
+
+        SimpleTreeNode<Integer> node2 = new SimpleTreeNode<>(2, null);
+        testTree.AddChild(testTree.Root, node2);
+        SimpleTreeNode<Integer> node3 = new SimpleTreeNode<>(3, null);
+        testTree.AddChild(testTree.Root, node3);
+        SimpleTreeNode<Integer> node6 = new SimpleTreeNode<>(6, null);
+        testTree.AddChild(testTree.Root, node6);
+
+        SimpleTreeNode<Integer> node5 = new SimpleTreeNode<>(5, null);
+        testTree.AddChild(node2, node5);
+        SimpleTreeNode<Integer> node7 = new SimpleTreeNode<>(7, null);
+        testTree.AddChild(node2, node7);
+
+        SimpleTreeNode<Integer> node4 = new SimpleTreeNode<>(4, null);
+        testTree.AddChild(node3, node4);
+
+        SimpleTreeNode<Integer> node8 = new SimpleTreeNode<>(8, null);
+        testTree.AddChild(node6, node8);
+
+        SimpleTreeNode<Integer> node9 = new SimpleTreeNode<>(9, null);
+        testTree.AddChild(node8, node9);
+        SimpleTreeNode<Integer> node10 = new SimpleTreeNode<>(10, null);
+        testTree.AddChild(node8, node10);
+
+        ArrayList<Integer> forest = testTree.EvenTrees();
+        Assertions.assertEquals(4, forest.size(), "Failed four elements even tree");
+
+        for (int i = 0; i < forest.size(); i++) {
+            System.out.print(forest.get(i) + ", ");
+
+            if (i % 2 > 0) {
+                System.out.println();
+            }
+        }
+    }
+
+    @Test
     void addChild() {
         SimpleTreeNode<Integer> firstChild = new SimpleTreeNode<>(11, null);
         tree.AddChild(null, firstChild);
@@ -271,6 +380,7 @@ class SimpleTreeTest {
         Assertions.assertEquals(1, tree.LeafCount(), "Failed leaf count");
 
     }
+
     @Test
     void leafCountOneLeaf() {
         Assertions.assertEquals(1, tree.LeafCount(), "Failed leaf count");
