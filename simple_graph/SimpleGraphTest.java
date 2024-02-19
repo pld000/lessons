@@ -1,10 +1,8 @@
-package simple_grapsh;
+package simple_graph;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SimpleGraphTest {
     public SimpleGraph graph;
