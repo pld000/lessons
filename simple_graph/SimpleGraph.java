@@ -6,9 +6,12 @@ class Vertex {
     public int Value;
     public boolean Hit;
 
+    public int Slot;
+
     public Vertex(int val) {
         Value = val;
         Hit = false;
+        Slot = -1;
     }
 }
 
@@ -25,43 +28,13 @@ class SimpleGraph {
     }
 
     public ArrayList<Vertex> DepthFirstSearch(int VFrom, int VTo) {
-        pathStack = new ArrayList<>();
-
-        for (int i = 0; i < vertex.length; i++) {
-            vertex[i].Hit = false;
-        }
+        _ResetDfs();
 
         if (VFrom < vertex.length && VTo < vertex.length) {
             _DepthFirstSearch(VFrom, vertex[VTo].Value);
         }
 
         return pathStack;
-    }
-
-    public void _DepthFirstSearch(int vIndex, int VToValue) {
-        Vertex pathVertex = vertex[vIndex];
-        pathVertex.Hit = true;
-        push(pathVertex);
-
-        if (pathVertex.Value == VToValue) {
-            return;
-        }
-
-        for (int i =0; i< m_adjacency[vIndex].length; i++) {
-            boolean isAdjacent = m_adjacency[vIndex][i] == 1;
-            if (isAdjacent && !vertex[i].Hit) {
-                _DepthFirstSearch(i, VToValue);
-            }
-        }
-    }
-
-    public void push(Vertex v) {
-        pathStack.add(v);
-    }
-
-    public Vertex pop() {
-        int size = pathStack.size();
-        return size > 0 ? pathStack.get(size - 1) : null;
     }
 
     public void AddVertex(int value) {
@@ -72,6 +45,7 @@ class SimpleGraph {
         }
 
         vertex[slot] = new Vertex(value);
+        vertex[slot].Slot = slot;
 
         for (int[] edges : m_adjacency) {
             edges[slot] = 0;
@@ -127,5 +101,77 @@ class SimpleGraph {
         }
 
         return -1;
+    }
+
+
+
+    public void _DepthFirstSearch(int vIndex, int VToValue) {
+        Vertex pathVertex = vertex[vIndex];
+
+        if (!pathVertex.Hit) {
+            pathVertex.Hit = true;
+            _Push(pathVertex);
+        }
+
+        if (pathVertex.Value == VToValue) {
+            return;
+        }
+
+        for (int i = 0; i < m_adjacency[vIndex].length; i++) {
+            boolean isAdjacent = m_adjacency[vIndex][i] == 1;
+            if (isAdjacent && vertex[i].Value == VToValue) {
+                vertex[i].Hit = true;
+                _Push(vertex[i]);
+                return;
+            }
+        }
+
+        int nextIndex = _GetAdjacentNotHitIndex(vIndex);
+
+        if (nextIndex == -1) {
+            _Pop();
+
+            if (pathStack.isEmpty()) {
+                return;
+            }
+
+            nextIndex = _Last().Slot;
+        }
+
+        _DepthFirstSearch(nextIndex, VToValue);
+    }
+
+    private int _GetAdjacentNotHitIndex(int vIndex) {
+        for (int i = 0; i < m_adjacency[vIndex].length; i++) {
+            boolean isAdjacent = m_adjacency[vIndex][i] == 1;
+            if (isAdjacent && !vertex[i].Hit) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private void _ResetDfs() {
+        pathStack = new ArrayList<>();
+
+        for (Vertex value : vertex) {
+            value.Hit = false;
+        }
+    }
+
+
+    private void _Push(Vertex v) {
+        pathStack.add(v);
+    }
+
+    private Vertex _Last() {
+        int size = pathStack.size();
+        return size > 0 ? pathStack.get(size - 1) : null;
+    }
+
+    private Vertex _Pop() {
+        int size = pathStack.size();
+        return size > 0 ? pathStack.remove(size - 1) : null;
     }
 }
