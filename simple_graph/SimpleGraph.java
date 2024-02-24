@@ -7,17 +7,20 @@ class Vertex {
     public boolean Hit;
 
     public int Slot;
+    public Vertex prevPath;
 
     public Vertex(int val) {
         Value = val;
         Hit = false;
         Slot = -1;
+        prevPath = null;
     }
 }
 
 class SimpleGraph {
     Vertex[] vertex;
     ArrayList<Vertex> pathStack;
+    ArrayList<Vertex> queue;
     int[][] m_adjacency;
     int max_vertex;
 
@@ -27,8 +30,25 @@ class SimpleGraph {
         vertex = new Vertex[size];
     }
 
+    public ArrayList<Vertex> BreadthFirstSearch(int VFrom, int VTo) {
+        _ResetVertex();
+        queue = new ArrayList<>();
+        ArrayList<Vertex> path = new ArrayList<>();
+        Vertex searchingVertex = null;
+
+        if (VFrom < vertex.length && VTo < vertex.length) {
+            vertex[VFrom].Hit = true;
+            vertex[VFrom].prevPath = null;
+            _Enqueue(vertex[VFrom]);
+            searchingVertex = _BreadthFirstSearch(vertex[VTo].Value);
+        }
+
+        return searchingVertex == null ? path : _MakePath(path, searchingVertex);
+    }
+
     public ArrayList<Vertex> DepthFirstSearch(int VFrom, int VTo) {
-        _ResetDfs();
+        pathStack = new ArrayList<>();
+        _ResetVertex();
 
         if (VFrom < vertex.length && VTo < vertex.length) {
             _DepthFirstSearch(VFrom, vertex[VTo].Value);
@@ -104,6 +124,42 @@ class SimpleGraph {
     }
 
 
+    private ArrayList<Vertex> _MakePath(ArrayList<Vertex> path, Vertex v) {
+        if (v == null) {
+            Collections.reverse(path);
+            return path;
+        }
+
+        path.add(v);
+        return _MakePath(path, v.prevPath);
+    }
+
+    private Vertex _BreadthFirstSearch(int VToValue) {
+        if (queue.isEmpty()) {
+            return null;
+        }
+
+        Vertex currentVertex = _Dequeue();
+
+        if (currentVertex.Value == VToValue) {
+            return currentVertex;
+        }
+
+        int[] adjacency = m_adjacency[currentVertex.Slot];
+        for (int i = 0; i < adjacency.length; i++) {
+            if (adjacency[i] == 1 && !vertex[i].Hit) {
+                vertex[i].Hit = true;
+                vertex[i].prevPath = currentVertex;
+                _Enqueue(vertex[i]);
+
+                if (vertex[i].Value == VToValue) {
+                    return vertex[i];
+                }
+            }
+        }
+
+        return _BreadthFirstSearch(VToValue);
+    }
 
     public void _DepthFirstSearch(int vIndex, int VToValue) {
         Vertex pathVertex = vertex[vIndex];
@@ -117,18 +173,16 @@ class SimpleGraph {
             return;
         }
 
-        for (int i = 0; i < m_adjacency[vIndex].length; i++) {
-            boolean isAdjacent = m_adjacency[vIndex][i] == 1;
-            if (isAdjacent && vertex[i].Value == VToValue) {
-                vertex[i].Hit = true;
-                _Push(vertex[i]);
-                return;
-            }
-        }
-
         int nextIndex = _GetAdjacentNotHitIndex(vIndex);
 
-        if (nextIndex == -1) {
+        if (nextIndex >= 0) {
+            vertex[nextIndex].Hit = true;
+            _Push(vertex[nextIndex]);
+
+            if (vertex[nextIndex].Value == VToValue) {
+                return;
+            }
+        } else {
             _Pop();
 
             if (pathStack.isEmpty()) {
@@ -152,12 +206,20 @@ class SimpleGraph {
         return -1;
     }
 
-    private void _ResetDfs() {
-        pathStack = new ArrayList<>();
-
-        for (Vertex value : vertex) {
-            value.Hit = false;
+    private void _ResetVertex() {
+        for (Vertex v : vertex) {
+            v.Hit = false;
+            v.prevPath = null;
         }
+    }
+
+    private void _Enqueue(Vertex v) {
+        queue.add(v);
+    }
+
+    private Vertex _Dequeue() {
+        int size = queue.size();
+        return size > 0 ? queue.remove(0) : null;
     }
 
 

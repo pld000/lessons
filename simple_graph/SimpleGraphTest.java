@@ -20,6 +20,29 @@ class SimpleGraphTest {
     }
 
     @Test
+    void breadthFirstSearch() {
+        int[] test = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90};
+
+        for (int i : test) {
+            graphDfs.AddVertex(i);
+        }
+
+        Assertions.assertEquals(0, graphDfs.BreadthFirstSearch(999, 1000).size(), "Failed don't exist indexes");
+
+        graphDfs.AddEdge(0, 1);
+        graphDfs.AddEdge(1, 2);
+        graphDfs.AddEdge(2, 3);
+        graphDfs.AddEdge(3, 4);
+        graphDfs.AddEdge(4, 7);
+        graphDfs.AddEdge(7, 6);
+        graphDfs.AddEdge(6, 9);
+
+       ArrayList<Vertex> stack = graphDfs.BreadthFirstSearch(3, 9);
+
+        _printPathStack(stack);
+    }
+
+    @Test
     void depthFirstSearch() {
         int[] test = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90};
 
@@ -36,11 +59,9 @@ class SimpleGraphTest {
         graphDfs.AddEdge(4, 7);
         graphDfs.AddEdge(7, 6);
         graphDfs.AddEdge(6, 9);
-        ArrayList<Vertex> stack = graphDfs.DepthFirstSearch(2, 9);
+        ArrayList<Vertex> stack = graphDfs.DepthFirstSearch(2, 6);
 
         _printPathStack(stack);
-
-
     }
 
     private void _printPathStack(ArrayList<Vertex> stack) {
