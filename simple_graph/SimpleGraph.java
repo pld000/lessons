@@ -30,6 +30,30 @@ class SimpleGraph {
         vertex = new Vertex[size];
     }
 
+    public ArrayList<Vertex> WeakVertices() {
+        ArrayList<Vertex> weakVertex = new ArrayList<>();
+
+        for (int i = 0; i < vertex.length; i++) {
+            ArrayList<Integer> adjacencyIndexes = new ArrayList<>();
+
+            for (int j = 0; j < m_adjacency[i].length; j++) {
+                if (i != j && m_adjacency[i][j] == 1) {
+                    adjacencyIndexes.add(j);
+                }
+            }
+
+            for (int index: adjacencyIndexes) {
+
+            }
+        }
+
+        return weakVertex;
+    }
+
+    private ArrayList<Vertex> _WeakVertices(ArrayList<Vertex> weakVertex, Vertex checkingVertex) {
+
+    }
+
     public ArrayList<Vertex> BreadthFirstSearch(int VFrom, int VTo) {
         _ResetVertex();
         queue = new ArrayList<>();
