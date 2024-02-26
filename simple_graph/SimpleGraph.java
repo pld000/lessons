@@ -58,8 +58,8 @@ class SimpleGraph {
             if (nextInd < vertexIndexes.size()) {
                 List<Integer> subList = vertexIndexes.subList(nextInd, vertexIndexes.size());
 
-                for (int j = 0; j < subList.size(); j++) {
-                    if (m_adjacency[subList.get(j)][vertexIndexes.get(i)] == 1) {
+                for (int adjacencyInd: subList) {
+                    if (m_adjacency[adjacencyInd][vertexIndexes.get(i)] == 1) {
                         return false;
                     }
                 }
