@@ -24,7 +24,7 @@ class SimpleGraphTest {
         Assertions.assertEquals(0, graph.WeakVertices().size(), "Failed weakVertices for empty");
 
         // int[] test = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90};
-        int[] test = {0, 10, 20};
+        int[] test = {0, 10, 20, 30, 40, 50};
         SimpleGraph testGraph = new SimpleGraph(test.length);
 
         for (int i : test) {
@@ -34,11 +34,14 @@ class SimpleGraphTest {
         testGraph.AddEdge(0, 1);
         testGraph.AddEdge(0, 2);
         testGraph.AddEdge(1, 2);
-
+        testGraph.AddEdge(1, 3);
+        testGraph.AddEdge(1, 4);
+        testGraph.AddEdge(1, 5);
 
         ArrayList<Vertex> outVertex = testGraph.WeakVertices();
+        Assertions.assertEquals(3, outVertex.size(), "Failed different variants of adjacency");
 
-        for(Vertex v: outVertex) {
+        for (Vertex v : outVertex) {
             System.out.print(v.Value + ", ");
         }
     }

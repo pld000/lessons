@@ -47,19 +47,19 @@ class SimpleGraph {
     }
 
     private boolean _isOutOfTriangle(int vInd) {
-        ArrayList<Integer> adjacencyIndexes = _getAdjacencyIndexes(vInd);
+        ArrayList<Integer> vertexIndexes = _getAdjacencyVertexIndexes(vInd);
 
-        if (adjacencyIndexes.size() < 2) {
+        if (vertexIndexes.size() < 2) {
             return true;
         }
 
-        for (int i = 0; i < adjacencyIndexes.size(); i++) {
+        for (int i = 0; i < vertexIndexes.size(); i++) {
             int nextInd = i + 1;
-            if (nextInd < adjacencyIndexes.size()) {
-                List<Integer> subList = adjacencyIndexes.subList(nextInd, adjacencyIndexes.size() - 1);
+            if (nextInd < vertexIndexes.size()) {
+                List<Integer> subList = vertexIndexes.subList(nextInd, vertexIndexes.size());
 
                 for (int j = 0; j < subList.size(); j++) {
-                    if (m_adjacency[j][adjacencyIndexes.get(i)] == 1) {
+                    if (m_adjacency[subList.get(j)][vertexIndexes.get(i)] == 1) {
                         return false;
                     }
                 }
@@ -69,16 +69,16 @@ class SimpleGraph {
         return true;
     }
 
-    private ArrayList<Integer> _getAdjacencyIndexes(int vInd) {
-        ArrayList<Integer> adjacencyIndexes = new ArrayList<>();
+    private ArrayList<Integer> _getAdjacencyVertexIndexes(int vInd) {
+        ArrayList<Integer> vertexIndexes = new ArrayList<>();
 
         for (int i = 0; i < m_adjacency[vInd].length; i++) {
             if (vInd != i && m_adjacency[vInd][i] == 1) {
-                adjacencyIndexes.add(i);
+                vertexIndexes.add(i);
             }
         }
 
-        return adjacencyIndexes;
+        return vertexIndexes;
     }
 
     public ArrayList<Vertex> BreadthFirstSearch(int VFrom, int VTo) {
