@@ -46,41 +46,6 @@ class SimpleGraph {
         return weakVertex;
     }
 
-    private boolean _isOutOfTriangle(int vInd) {
-        ArrayList<Integer> vertexIndexes = _getAdjacencyVertexIndexes(vInd);
-
-        if (vertexIndexes.size() < 2) {
-            return true;
-        }
-
-        for (int i = 0; i < vertexIndexes.size(); i++) {
-            int nextInd = i + 1;
-            if (nextInd < vertexIndexes.size()) {
-                List<Integer> subList = vertexIndexes.subList(nextInd, vertexIndexes.size());
-
-                for (int adjacencyInd: subList) {
-                    if (m_adjacency[adjacencyInd][vertexIndexes.get(i)] == 1) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
-    private ArrayList<Integer> _getAdjacencyVertexIndexes(int vInd) {
-        ArrayList<Integer> vertexIndexes = new ArrayList<>();
-
-        for (int i = 0; i < m_adjacency[vInd].length; i++) {
-            if (vInd != i && m_adjacency[vInd][i] == 1) {
-                vertexIndexes.add(i);
-            }
-        }
-
-        return vertexIndexes;
-    }
-
     public ArrayList<Vertex> BreadthFirstSearch(int VFrom, int VTo) {
         _ResetVertex();
         queue = new ArrayList<>();
@@ -172,6 +137,41 @@ class SimpleGraph {
         }
 
         return -1;
+    }
+
+    private boolean _isOutOfTriangle(int vInd) {
+        ArrayList<Integer> vertexIndexes = _getAdjacencyVertexIndexes(vInd);
+
+        if (vertexIndexes.size() < 2) {
+            return true;
+        }
+
+        for (int i = 0; i < vertexIndexes.size(); i++) {
+            int nextInd = i + 1;
+            if (nextInd < vertexIndexes.size()) {
+                List<Integer> subList = vertexIndexes.subList(nextInd, vertexIndexes.size());
+
+                for (int adjacencyInd: subList) {
+                    if (m_adjacency[adjacencyInd][vertexIndexes.get(i)] == 1) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private ArrayList<Integer> _getAdjacencyVertexIndexes(int vInd) {
+        ArrayList<Integer> vertexIndexes = new ArrayList<>();
+
+        for (int i = 0; i < m_adjacency[vInd].length; i++) {
+            if (vInd != i && m_adjacency[vInd][i] == 1) {
+                vertexIndexes.add(i);
+            }
+        }
+
+        return vertexIndexes;
     }
 
     private boolean _isEmpty() {
