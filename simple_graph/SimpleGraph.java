@@ -33,25 +33,52 @@ class SimpleGraph {
     public ArrayList<Vertex> WeakVertices() {
         ArrayList<Vertex> weakVertex = new ArrayList<>();
 
+        if (_isEmpty()) {
+            return weakVertex;
+        }
+
         for (int i = 0; i < vertex.length; i++) {
-            ArrayList<Integer> adjacencyIndexes = new ArrayList<>();
-
-            for (int j = 0; j < m_adjacency[i].length; j++) {
-                if (i != j && m_adjacency[i][j] == 1) {
-                    adjacencyIndexes.add(j);
-                }
-            }
-
-            for (int index: adjacencyIndexes) {
-
+            if (_isOutOfTriangle(i)) {
+                weakVertex.add(vertex[i]);
             }
         }
 
         return weakVertex;
     }
 
-    private ArrayList<Vertex> _WeakVertices(ArrayList<Vertex> weakVertex, Vertex checkingVertex) {
+    private boolean _isOutOfTriangle(int vInd) {
+        ArrayList<Integer> adjacencyIndexes = _getAdjacencyIndexes(vInd);
 
+        if (adjacencyIndexes.size() < 2) {
+            return true;
+        }
+
+        for (int i = 0; i < adjacencyIndexes.size(); i++) {
+            int nextInd = i + 1;
+            if (nextInd < adjacencyIndexes.size()) {
+                List<Integer> subList = adjacencyIndexes.subList(nextInd, adjacencyIndexes.size() - 1);
+
+                for (int j = 0; j < subList.size(); j++) {
+                    if (m_adjacency[j][adjacencyIndexes.get(i)] == 1) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private ArrayList<Integer> _getAdjacencyIndexes(int vInd) {
+        ArrayList<Integer> adjacencyIndexes = new ArrayList<>();
+
+        for (int i = 0; i < m_adjacency[vInd].length; i++) {
+            if (vInd != i && m_adjacency[vInd][i] == 1) {
+                adjacencyIndexes.add(i);
+            }
+        }
+
+        return adjacencyIndexes;
     }
 
     public ArrayList<Vertex> BreadthFirstSearch(int VFrom, int VTo) {
@@ -145,6 +172,16 @@ class SimpleGraph {
         }
 
         return -1;
+    }
+
+    private boolean _isEmpty() {
+        for (Vertex value : vertex) {
+            if (value != null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
